@@ -89,3 +89,76 @@ export const Item = styled.div`
   width: 80%;
   text-align: center;
 `;
+
+export const GraphsContainer = styled.div`
+  margin-top: 40px;
+
+  display: grid;
+  grid-template-columns: 65% 33%;
+  gap: 20px;
+`;
+
+export const GraphItem = styled.div`
+  background-color: #fff;
+  min-height: 400px;
+  padding: 20px;
+  border-radius: 30px;
+`;
+
+export const GraphInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+  height: 30%;
+
+  margin-bottom: 20px;
+`;
+
+export const LeftPart = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  h3 {
+    color: #20b7d9;
+    font-weight: bold;
+    font-size: 30px;
+  }
+
+  button {
+    background-color: #20b7d9;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    width: max-content;
+    font-size: 16px;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:active {
+      opacity: 0.6;
+    }
+  }
+`;
+
+export const RightPart = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  p {
+    font-size: 18px;
+    color: #000;
+  }
+`;
+
+export const SaldoText = styled.p`
+  color: #20b7d9;
+
+  span {
+    font-weight: bold;
+    color: #000;
+  }
+`;

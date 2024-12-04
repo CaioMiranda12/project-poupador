@@ -10,6 +10,7 @@
         "sourceType": "module"
     },
     "rules": {
+        "react/button-has-type": "off",
         "prettier/prettier": "error",
         "react/react-in-jsx-scope": "off",
         "react/jsx-uses-react": "off",
