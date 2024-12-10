@@ -10,6 +10,8 @@
         "sourceType": "module"
     },
     "rules": {
+        "react/jsx-no-bind": "off",
+        "react/no-unstable-nested-components": "off",
         "react/button-has-type": "off",
         "prettier/prettier": "error",
         "react/react-in-jsx-scope": "off",

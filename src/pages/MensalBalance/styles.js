@@ -5,6 +5,7 @@ export const Container = styled.div`
   min-height: 100vh;
   background-color: #20b7d9;
   padding-top: 20px;
+  padding-bottom: 20px;
   padding-right: 20px;
 
   display: flex;
@@ -100,7 +101,6 @@ export const GraphsContainer = styled.div`
 
 export const GraphItem = styled.div`
   background-color: #fff;
-  min-height: 400px;
   padding: 20px;
   border-radius: 30px;
 `;
@@ -108,7 +108,7 @@ export const GraphItem = styled.div`
 export const GraphInfo = styled.div`
   display: flex;
   justify-content: space-between;
-  height: 30%;
+  height: 20%;
 
   margin-bottom: 20px;
 `;
@@ -132,6 +132,7 @@ export const LeftPart = styled.div`
     border-radius: 20px;
     width: max-content;
     font-size: 16px;
+    cursor: pointer;
 
     &:hover {
       opacity: 0.8;
@@ -141,6 +142,10 @@ export const LeftPart = styled.div`
       opacity: 0.6;
     }
   }
+
+  p {
+    font-size: 20px;
+  }
 `;
 
 export const RightPart = styled.div`
@@ -149,8 +154,14 @@ export const RightPart = styled.div`
   justify-content: space-between;
 
   p {
-    font-size: 18px;
+    font-size: 20px;
     color: #000;
+    margin-left: 20px;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
   }
 `;
 
@@ -161,4 +172,10 @@ export const SaldoText = styled.p`
     font-weight: bold;
     color: #000;
   }
+`;
+
+export const GraphShowContainer = styled.div`
+  height: 80%;
+  width: 100%;
+  padding: 20px 0;
 `;
