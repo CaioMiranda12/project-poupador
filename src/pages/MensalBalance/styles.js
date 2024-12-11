@@ -92,7 +92,7 @@ export const Item = styled.div`
 `;
 
 export const GraphsContainer = styled.div`
-  margin-top: 40px;
+  margin-top: 20px;
 
   display: grid;
   grid-template-columns: 65% 33%;
@@ -178,4 +178,70 @@ export const GraphShowContainer = styled.div`
   height: 80%;
   width: 100%;
   padding: 20px 0;
+`;
+
+export const PopUpContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+`;
+
+export const PopUp = styled.div`
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 500px;
+  text-align: left;
+
+  input {
+    width: 25px;
+    height: 25px;
+  }
+
+  label {
+    font-size: 24px;
+    display: flex;
+    gap: 10px;
+  }
+`;
+
+export const TopPopUp = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 40px;
+
+  h3 {
+    font-size: 30px;
+    font-weight: bold;
+  }
+
+  button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:active {
+      opacity: 0.6;
+    }
+  }
+`;
+
+export const BottomPopUp = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `;

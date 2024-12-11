@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import {
   ResponsiveContainer,
   XAxis,
@@ -10,7 +11,7 @@ import {
 
 import saldoReceitasDespesas from '../../services/SaldoReceitasDespesas.json';
 
-export function SaldoLeftArea() {
+export function SaldoLeftArea({ showReceitas, showDespesas, showSaldo }) {
   const { productSales } = saldoReceitasDespesas;
 
   const newProductSales = productSales.map((item) => ({
@@ -38,33 +39,48 @@ export function SaldoLeftArea() {
 
         <Tooltip />
 
-        <Line
-          type="monotone"
-          dataKey="Receitas"
-          stroke="#2563eb"
-          fill="#3b82f6"
-          stackId="1"
-          strokeWidth={3}
-        />
+        {/* Mostrar Receitas apenas se showReceitas for true */}
+        {showReceitas && (
+          <Line
+            type="monotone"
+            dataKey="Receitas"
+            stroke="#2563eb"
+            fill="#3b82f6"
+            stackId="1"
+            strokeWidth={3}
+          />
+        )}
 
-        <Line
-          type="monotone"
-          dataKey="Despesas"
-          stroke="red"
-          fill="red"
-          stackId="1"
-          strokeWidth={3}
-        />
+        {/* Mostrar Despesas apenas se showDespesas for true */}
+        {showDespesas && (
+          <Line
+            type="monotone"
+            dataKey="Despesas"
+            stroke="red"
+            fill="red"
+            stackId="1"
+            strokeWidth={3}
+          />
+        )}
 
-        <Line
-          type="monotone"
-          dataKey="Saldo"
-          stroke="green"
-          fill="green"
-          stackId="1"
-          strokeWidth={3}
-        />
+        {/* Mostrar Saldo apenas se showSaldo for true */}
+        {showSaldo && (
+          <Line
+            type="monotone"
+            dataKey="Saldo"
+            stroke="green"
+            fill="green"
+            stackId="1"
+            strokeWidth={3}
+          />
+        )}
       </LineChart>
     </ResponsiveContainer>
   );
 }
+
+SaldoLeftArea.propTypes = {
+  showReceitas: PropTypes.bool.isRequired,
+  showDespesas: PropTypes.bool.isRequired,
+  showSaldo: PropTypes.bool.isRequired,
+};

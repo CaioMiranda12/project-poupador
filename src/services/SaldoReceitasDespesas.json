@@ -1,7 +1,7 @@
 {
     "productSales": [
       { "name": "11.2024", "Receitas": 4000, "Despesas": 2400 },
-      { "name": "12.2024", "Receitas": 3000, "Despesas": 2000 },
+      { "name": "12.2024", "Receitas": 3200, "Despesas": 2000 },
       { "name": "01.2025", "Receitas": 3000, "Despesas": 5000 },
       { "name": "02.2025", "Receitas": 5780, "Despesas": 2000 },
       { "name": "03.2025", "Receitas": 3890, "Despesas": 2181 },

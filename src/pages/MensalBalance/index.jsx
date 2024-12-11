@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import Carousel from 'react-elastic-carousel';
+import { FaWindowClose } from 'react-icons/fa';
 import { TbTargetArrow, TbChecklist } from 'react-icons/tb';
 import { VscGraphLine } from 'react-icons/vsc';
 
@@ -24,6 +25,10 @@ import {
   GraphInfo,
   SaldoText,
   GraphShowContainer,
+  PopUpContainer,
+  PopUp,
+  TopPopUp,
+  BottomPopUp,
 } from './styles';
 
 export function MensalBalance() {
@@ -35,22 +40,51 @@ export function MensalBalance() {
 
   const DateProductSales = productSales.map((item) => item.name);
 
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  const [showReceitas, setShowReceitas] = useState(true);
+  const [showDespesas, setShowDespesas] = useState(true);
+  const [showSaldo, setShowSaldo] = useState(true);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedDate, setSelectedDate] = useState(productSales[0].name);
   const [receitaMensal, setReceitaMensal] = useState(productSales[0].Receitas);
   const [despesaMensal, setDespesaMensal] = useState(productSales[0].Despesas);
 
-  const findSelectedDate = productSales.find(
-    (item) => item.name === selectedDate,
-  );
+  const togglePopup = () => {
+    setIsPopupVisible((prev) => !prev);
+  };
+
+  const handleReceitasChange = () => setShowReceitas((prev) => !prev);
+  const handleDespesasChange = () => setShowDespesas((prev) => !prev);
+  const handleSaldoChange = () => setShowSaldo((prev) => !prev);
 
   const carouselRef = useRef(null);
 
-  function handleButtonNextDate() {
-    setReceitaMensal(findSelectedDate.Receitas);
-    setDespesaMensal(findSelectedDate.Despesas);
+  const handleMonthChange = (newDate) => {
+    const selectedData = productSales.find((item) => item.name === newDate);
+    if (selectedData) {
+      setReceitaMensal(selectedData.Receitas);
+      setDespesaMensal(selectedData.Despesas);
+      setSelectedDate(newDate);
+    }
+  };
 
-    console.log(findSelectedDate.Receitas);
-  }
+  const handlePreviousMonth = () => {
+    if (currentIndex > 0) {
+      const newIndex = currentIndex - 1;
+      setCurrentIndex(newIndex);
+      const newDate = DateProductSales[newIndex];
+      handleMonthChange(newDate);
+    }
+  };
+
+  const handleNextMonth = (currentItem) => {
+    const newIndex = currentItem.index;
+    setCurrentIndex(newIndex);
+    const newDate = DateProductSales[newIndex];
+    handleMonthChange(newDate);
+  };
 
   const totalAcumulado = dataRight.reduce(
     (acc, item) => item.acumulado + acc,
@@ -93,7 +127,8 @@ export function MensalBalance() {
           itemsToShow={1}
           pagination={false}
           ref={carouselRef}
-          onNextEnd={handleButtonNextDate}
+          onPrevEnd={handlePreviousMonth}
+          onNextEnd={handleNextMonth}
         >
           {DateProductSales.map((item) => (
             <Item>{formatDate(item)}</Item>
@@ -105,7 +140,7 @@ export function MensalBalance() {
             <GraphInfo>
               <LeftPart>
                 <h3>Saldo: Receitas vs Despesas</h3>
-                <button>Alterar Visualização</button>
+                <button onClick={togglePopup}>Alterar Visualização</button>
               </LeftPart>
 
               <RightPart>
@@ -138,9 +173,54 @@ export function MensalBalance() {
             </GraphInfo>
 
             <GraphShowContainer>
-              <SaldoLeftArea />
+              <SaldoLeftArea
+                showReceitas={showReceitas}
+                showDespesas={showDespesas}
+                showSaldo={showSaldo}
+              />
             </GraphShowContainer>
           </GraphItem>
+
+          {isPopupVisible && (
+            <PopUpContainer className="popup-overlay">
+              <PopUp className="popup">
+                <TopPopUp>
+                  <h3>Configurar Visualização</h3>
+                  <button onClick={togglePopup}>
+                    <FaWindowClose size={30} color="red" />
+                  </button>
+                </TopPopUp>
+                <BottomPopUp>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={showReceitas}
+                      onChange={handleReceitasChange}
+                    />
+                    Mostrar as receitas
+                  </label>
+
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={showDespesas}
+                      onChange={handleDespesasChange}
+                    />
+                    Mostrar as despesas
+                  </label>
+
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={showSaldo}
+                      onChange={handleSaldoChange}
+                    />
+                    Mostrar os saldos
+                  </label>
+                </BottomPopUp>
+              </PopUp>
+            </PopUpContainer>
+          )}
 
           <GraphItem>
             <GraphInfo>
