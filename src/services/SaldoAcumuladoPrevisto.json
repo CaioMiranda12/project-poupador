@@ -1,9 +1,65 @@
 {
     "data": [
-        {
-            "name": "Novembro",
-            "acumulado": 4000,
-            "previsto": 3000
-        }
+      {
+        "name": "11.2024",
+        "acumulado": 4500,
+        "previsto": 3000
+      },
+      {
+        "name": "12.2024",
+        "acumulado": 5200,
+        "previsto": 3300
+      },
+      {
+        "name": "01.2025",
+        "acumulado": 4800,
+        "previsto": 2900
+      },
+      {
+        "name": "02.2025",
+        "acumulado": 5100,
+        "previsto": 3100
+      },
+      {
+        "name": "03.2025",
+        "acumulado": 4900,
+        "previsto": 5200
+      },
+      {
+        "name": "04.2025",
+        "acumulado": 5300,
+        "previsto": 3400
+      },
+      {
+        "name": "05.2025",
+        "acumulado": 5500,
+        "previsto": 3500
+      },
+      {
+        "name": "06.2025",
+        "acumulado": 5600,
+        "previsto": 3600
+      },
+      {
+        "name": "07.2025",
+        "acumulado": 5800,
+        "previsto": 3700
+      },
+      {
+        "name": "08.2025",
+        "acumulado": 5900,
+        "previsto": 3800
+      },
+      {
+        "name": "09.2025",
+        "acumulado": 6000,
+        "previsto": 3900
+      },
+      {
+        "name": "10.2025",
+        "acumulado": 6100,
+        "previsto": 4000
+      }
     ]
-}
+  }
+  

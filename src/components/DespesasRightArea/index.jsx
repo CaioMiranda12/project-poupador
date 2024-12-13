@@ -12,7 +12,7 @@ import {
 
 import saldoAcumuladoPrevisto from '../../services/SaldoAcumuladoPrevisto.json';
 
-export function SaldoRightArea({ selectedDate }) {
+export function DespesasRightArea({ selectedDate }) {
   const dataRight = saldoAcumuladoPrevisto.data;
 
   const selectedData = dataRight.find((item) => item.name === selectedDate);
@@ -45,7 +45,7 @@ export function SaldoRightArea({ selectedDate }) {
 
         <Bar
           dataKey="acumulado"
-          fill="#82ca9d"
+          fill="red"
           activeBar={<Rectangle fill="pink" stroke="blue" />}
         />
         <Bar
@@ -58,6 +58,6 @@ export function SaldoRightArea({ selectedDate }) {
   );
 }
 
-SaldoRightArea.propTypes = {
+DespesasRightArea.propTypes = {
   selectedDate: PropTypes.string.isRequired,
 };

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import {
   BarChart,
   Bar,
@@ -6,33 +7,46 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from 'recharts';
 
 import receitasRecebidoPrevisto from '../../services/ReceitasRecebidoPrevisto.json';
+import saldoAcumuladoPrevisto from '../../services/SaldoAcumuladoPrevisto.json';
 
-const { receitas } = receitasRecebidoPrevisto;
+export function ReceitasRightArea({ selectedDate }) {
+  const { receitas } = receitasRecebidoPrevisto;
 
-export function ReceitasRightArea() {
+  // Depois apagar
+  const dataRight = saldoAcumuladoPrevisto.data;
+
+  const selectedData = dataRight.find((item) => item.name === selectedDate);
+
+  // Define os dados padrão para evitar erros de renderização
+  const acumulado = selectedData ? selectedData.acumulado : 0;
+  const previsto = selectedData ? selectedData.previsto : 0;
+
+  const chartData = [{ name: selectedDate, acumulado, previsto }];
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart
         width={500}
         height={300}
-        data={receitas}
+        data={chartData}
         margin={{
           top: 5,
           right: 30,
           left: 20,
           bottom: 5,
         }}
+        barSize={80}
+        barGap={100}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
-        <Legend />
+
         <Bar
           dataKey="acumulado"
           fill="#20b7d9"
@@ -47,3 +61,7 @@ export function ReceitasRightArea() {
     </ResponsiveContainer>
   );
 }
+
+ReceitasRightArea.propTypes = {
+  selectedDate: PropTypes.string.isRequired,
+};

@@ -245,3 +245,13 @@ export const BottomPopUp = styled.div`
   flex-direction: column;
   gap: 20px;
 `;
+
+export const GraphBarVerticalInfo = styled.div`
+  div {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    gap: 20px;
+  }
+`;
