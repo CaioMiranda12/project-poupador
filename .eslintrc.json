@@ -10,6 +10,7 @@
         "sourceType": "module"
     },
     "rules": {
+        "react/jsx-props-no-spreading": "off",
         "jsx-a11y/label-has-associated-control": "off",
         "react/jsx-no-bind": "off",
         "react/no-unstable-nested-components": "off",

@@ -1,5 +1,5 @@
-/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/prop-types */
+import PropTypes from 'prop-types';
 import {
   BarChart,
   Bar,
@@ -7,7 +7,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from 'recharts';
 
@@ -113,3 +112,32 @@ export function ReceitasLeftArea() {
     </ResponsiveContainer>
   );
 }
+
+CustomBar.propTypes = {
+  fill: PropTypes.string, // Cor de preenchimento
+  x: PropTypes.number.isRequired, // Posição X
+  y: PropTypes.number.isRequired, // Posição Y
+  width: PropTypes.number.isRequired, // Largura da barra
+  height: PropTypes.number.isRequired, // Altura da barra
+  previsto: PropTypes.number.isRequired, // Valor total previsto
+  recebido: PropTypes.number.isRequired, // Valor recebido
+  payload: PropTypes.shape({
+    PrevistoTotal: PropTypes.number.isRequired, // Valor total previsto
+    Recebido: PropTypes.number.isRequired, // Valor recebido
+  }).isRequired, // Dados associados à barra
+};
+
+CustomTooltip.propTypes = {
+  active: PropTypes.bool, // Indica se o tooltip está ativo
+  payload: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string, // Nome da barra
+      value: PropTypes.number, // Valor recebido ou previsto
+      payload: PropTypes.shape({
+        name: PropTypes.string.isRequired, // Nome da categoria
+        Recebido: PropTypes.number.isRequired, // Valor recebido
+        Previsto: PropTypes.number.isRequired, // Valor previsto
+      }),
+    }),
+  ),
+};

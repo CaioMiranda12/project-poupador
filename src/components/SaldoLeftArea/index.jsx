@@ -47,7 +47,7 @@ export function SaldoLeftArea({ showReceitas, showDespesas, showSaldo }) {
             stroke="#2563eb"
             fill="#3b82f6"
             stackId="1"
-            strokeWidth={3}
+            strokeWidth={4}
           />
         )}
 
@@ -59,7 +59,7 @@ export function SaldoLeftArea({ showReceitas, showDespesas, showSaldo }) {
             stroke="red"
             fill="red"
             stackId="1"
-            strokeWidth={3}
+            strokeWidth={4}
           />
         )}
 
@@ -71,7 +71,7 @@ export function SaldoLeftArea({ showReceitas, showDespesas, showSaldo }) {
             stroke="green"
             fill="green"
             stackId="1"
-            strokeWidth={3}
+            strokeWidth={4}
           />
         )}
       </LineChart>

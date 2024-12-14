@@ -165,14 +165,7 @@ export const RightPart = styled.div`
   }
 `;
 
-export const SaldoText = styled.p`
-  color: #20b7d9;
-
-  span {
-    font-weight: bold;
-    color: #000;
-  }
-`;
+export const SaldoText = styled.p``;
 
 export const GraphShowContainer = styled.div`
   height: 80%;

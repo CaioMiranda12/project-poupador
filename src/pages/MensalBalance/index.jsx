@@ -164,7 +164,7 @@ export function MensalBalance() {
                   <div
                     style={{
                       backgroundColor: '#20b7d9',
-                      height: 10,
+                      height: 6,
                       width: 200,
                     }}
                   />
@@ -172,17 +172,25 @@ export function MensalBalance() {
                 </div>
                 <div>
                   <div
-                    style={{ backgroundColor: 'red', height: 10, width: 200 }}
+                    style={{ backgroundColor: 'red', height: 6, width: 200 }}
                   />
                   <p>Despesas: {formatCurrency(despesaMensal)}</p>
                 </div>
                 <div style={{ display: 'flex' }}>
                   <div
-                    style={{ backgroundColor: 'green', height: 10, width: 200 }}
+                    style={{ backgroundColor: 'green', height: 6, width: 200 }}
                   />
                   <SaldoText>
-                    <span>Saldo</span>:{' '}
-                    {formatCurrency(receitaMensal - despesaMensal)}
+                    <strong>Saldo</strong>:{' '}
+                    {receitaMensal - despesaMensal >= 0 ? (
+                      <span style={{ color: '#20b7d9' }}>
+                        +{formatCurrency(receitaMensal - despesaMensal)}
+                      </span>
+                    ) : (
+                      <span style={{ color: 'red' }}>
+                        {formatCurrency(receitaMensal - despesaMensal)}
+                      </span>
+                    )}
                   </SaldoText>
                 </div>
               </RightPart>
@@ -248,7 +256,7 @@ export function MensalBalance() {
                     <div
                       style={{
                         backgroundColor: '#82ca9d',
-                        height: 10,
+                        height: 6,
                         width: 200,
                       }}
                     />
@@ -258,7 +266,7 @@ export function MensalBalance() {
                     <div
                       style={{
                         backgroundColor: 'gray',
-                        height: 10,
+                        height: 6,
                         width: 200,
                       }}
                     />
@@ -268,21 +276,34 @@ export function MensalBalance() {
                     <div
                       style={{
                         backgroundColor: 'transparent',
-                        height: 10,
+                        height: 6,
                         width: 200,
                       }}
                     />
                     <p>
-                      Diferença:{' '}
-                      <span style={{ color: 'red' }}>
-                        {formatCurrency(acumuladoMensal - previstoMensal)}{' '}
-                        <br /> (
-                        {calcDiferencaPorcentagem(
-                          acumuladoMensal,
-                          previstoMensal,
-                        )}
-                        )
-                      </span>
+                      <strong>Diferença: </strong>
+
+                      {acumuladoMensal - previstoMensal >= 0 ? (
+                        <span style={{ color: '#20b7d9' }}>
+                          +{formatCurrency(acumuladoMensal - previstoMensal)}{' '}
+                          <br /> (
+                          {calcDiferencaPorcentagem(
+                            acumuladoMensal,
+                            previstoMensal,
+                          )}
+                          )
+                        </span>
+                      ) : (
+                        <span style={{ color: 'red' }}>
+                          {formatCurrency(acumuladoMensal - previstoMensal)}{' '}
+                          <br /> (
+                          {calcDiferencaPorcentagem(
+                            acumuladoMensal,
+                            previstoMensal,
+                          )}
+                          )
+                        </span>
+                      )}
                     </p>
                   </div>
                 </GraphBarVerticalInfo>
@@ -328,8 +349,21 @@ export function MensalBalance() {
                     }}
                   />
                   <SaldoText>
-                    <span>Diferença</span>:{' '}
-                    {formatCurrency(totalRecebido - totalPrevistoDeRecebido)}
+                    <strong>Diferença</strong>:{' '}
+                    {totalRecebido - totalPrevistoDeRecebido >= 0 ? (
+                      <span style={{ color: '#20b7d9' }}>
+                        +
+                        {formatCurrency(
+                          totalRecebido - totalPrevistoDeRecebido,
+                        )}
+                      </span>
+                    ) : (
+                      <span style={{ color: 'red' }}>
+                        {formatCurrency(
+                          totalRecebido - totalPrevistoDeRecebido,
+                        )}
+                      </span>
+                    )}
                   </SaldoText>
                 </div>
               </RightPart>
@@ -376,16 +410,29 @@ export function MensalBalance() {
                       }}
                     />
                     <p>
-                      Diferença:{' '}
-                      <span style={{ color: 'red' }}>
-                        {formatCurrency(acumuladoMensal - previstoMensal)}{' '}
-                        <br /> (
-                        {calcDiferencaPorcentagem(
-                          acumuladoMensal,
-                          previstoMensal,
-                        )}
-                        )
-                      </span>
+                      <strong>Diferença: </strong>
+
+                      {acumuladoMensal - previstoMensal >= 0 ? (
+                        <span style={{ color: '#20b7d9' }}>
+                          +{formatCurrency(acumuladoMensal - previstoMensal)}{' '}
+                          <br /> (
+                          {calcDiferencaPorcentagem(
+                            acumuladoMensal,
+                            previstoMensal,
+                          )}
+                          )
+                        </span>
+                      ) : (
+                        <span style={{ color: 'red' }}>
+                          {formatCurrency(acumuladoMensal - previstoMensal)}{' '}
+                          <br /> (
+                          {calcDiferencaPorcentagem(
+                            acumuladoMensal,
+                            previstoMensal,
+                          )}
+                          )
+                        </span>
+                      )}
                     </p>
                   </div>
                 </GraphBarVerticalInfo>
@@ -434,16 +481,29 @@ export function MensalBalance() {
                       }}
                     />
                     <p>
-                      Diferença:{' '}
-                      <span style={{ color: '#20b7d9', fontWeight: 'bold' }}>
-                        {formatCurrency(acumuladoMensal - previstoMensal)}{' '}
-                        <br /> (
-                        {calcDiferencaPorcentagem(
-                          acumuladoMensal,
-                          previstoMensal,
-                        )}
-                        )
-                      </span>
+                      <strong>Diferença: </strong>
+
+                      {acumuladoMensal - previstoMensal >= 0 ? (
+                        <span style={{ color: '#20b7d9' }}>
+                          +{formatCurrency(acumuladoMensal - previstoMensal)}{' '}
+                          <br /> (
+                          {calcDiferencaPorcentagem(
+                            acumuladoMensal,
+                            previstoMensal,
+                          )}
+                          )
+                        </span>
+                      ) : (
+                        <span style={{ color: 'red' }}>
+                          {formatCurrency(acumuladoMensal - previstoMensal)}{' '}
+                          <br /> (
+                          {calcDiferencaPorcentagem(
+                            acumuladoMensal,
+                            previstoMensal,
+                          )}
+                          )
+                        </span>
+                      )}
                     </p>
                   </div>
                 </GraphBarVerticalInfo>
