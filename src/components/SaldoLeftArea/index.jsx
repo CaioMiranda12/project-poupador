@@ -11,9 +11,12 @@ import {
 
 import saldoReceitasDespesas from '../../services/SaldoReceitasDespesas.json';
 
-export function SaldoLeftArea({ showReceitas, showDespesas, showSaldo }) {
-  const { productSales } = saldoReceitasDespesas;
-
+export function SaldoLeftArea({
+  showReceitas,
+  showDespesas,
+  showSaldo,
+  productSales,
+}) {
   const newProductSales = productSales.map((item) => ({
     name: item.name,
     Receitas: item.Receitas,
@@ -83,4 +86,11 @@ SaldoLeftArea.propTypes = {
   showReceitas: PropTypes.bool.isRequired,
   showDespesas: PropTypes.bool.isRequired,
   showSaldo: PropTypes.bool.isRequired,
+  productSales: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      Receitas: PropTypes.number.isRequired,
+      Despesas: PropTypes.number.isRequired,
+    }),
+  ).isRequired,
 };

@@ -102,12 +102,11 @@ export function MensalBalance() {
     handleMonthChange(newDate);
   };
 
-  const totalAcumulado = dataRight.reduce(
-    (acc, item) => item.acumulado + acc,
-    0,
+  // Filtrar os dados do gráfico para os últimos 12 meses (incluindo o mês atual)
+  const filteredProductSales = productSales.slice(
+    Math.max(currentIndex - 11, 0), // Índice inicial (até 11 meses anteriores ou início)
+    currentIndex + 1, // Índice final (mês atual incluído)
   );
-
-  const totalPrevisto = dataRight.reduce((acc, item) => acc + item.previsto, 0);
 
   const totalRecebido = receitas.reduce((acc, item) => item.Recebido + acc, 0);
 
@@ -201,6 +200,7 @@ export function MensalBalance() {
                 showReceitas={showReceitas}
                 showDespesas={showDespesas}
                 showSaldo={showSaldo}
+                productSales={filteredProductSales} // Apenas os últimos 12 meses
               />
             </GraphShowContainer>
           </GraphItem>
