@@ -88,7 +88,7 @@ export function DespesasLeftArea() {
   }));
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer width="90%" height="100%">
       <BarChart
         width={500}
         height={300}
@@ -103,7 +103,7 @@ export function DespesasLeftArea() {
         barGap={20}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis type="number" />
+        <XAxis type="number" domain={[0, 'dataMax + 500']} />
         <YAxis type="category" dataKey="name" />
         <Tooltip content={<CustomTooltip />} />
 
@@ -123,7 +123,7 @@ export function DespesasLeftArea() {
           {/* LabelList mostra a diferença ao final */}
           <LabelList
             dataKey="Diferenca"
-            position="top"
+            position="right"
             formatter={(value) =>
               value > 0
                 ? `+${formatCurrency(value)}`
