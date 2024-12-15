@@ -1,0 +1,113 @@
+{
+    "despesas": [
+        {
+          "name": "Despesa 1",
+          "categoria": "Lazer",
+          "tipo": "DFE",
+          "utilidade": "Essencial",
+          "gasto": 2300,
+          "previsto": 3000,
+          "mês": "11.2024"
+        },
+        {
+          "name": "Despesa 2",
+          "categoria": "Saúde",
+          "tipo": "DFNE",
+          "utilidade": "Não Essencial",
+          "gasto": 1500,
+          "previsto": 2500,
+          "mês": "12.2024"
+        },
+        {
+          "name": "Despesa 3",
+          "categoria": "Transporte",
+          "tipo": "DVE",
+          "utilidade": "Essencial",
+          "gasto": 800,
+          "previsto": 1000,
+          "mês": "01.2025"
+        },
+        {
+          "name": "Despesa 4",
+          "categoria": "Alimentação",
+          "tipo": "DFE",
+          "utilidade": "Essencial",
+          "gasto": 2000,
+          "previsto": 2200,
+          "mês": "02.2025"
+        },
+        {
+          "name": "Despesa 5",
+          "categoria": "Educação",
+          "tipo": "DFNE",
+          "utilidade": "Não Essencial",
+          "gasto": 1200,
+          "previsto": 1500,
+          "mês": "03.2025"
+        },
+        {
+          "name": "Despesa 6",
+          "categoria": "Lazer",
+          "tipo": "DVE",
+          "utilidade": "Essencial",
+          "gasto": 1000,
+          "previsto": 1300,
+          "mês": "04.2025"
+        },
+        {
+          "name": "Despesa 7",
+          "categoria": "Saúde",
+          "tipo": "DFE",
+          "utilidade": "Essencial",
+          "gasto": 1500,
+          "previsto": 1800,
+          "mês": "05.2025"
+        },
+        {
+          "name": "Despesa 8",
+          "categoria": "Transporte",
+          "tipo": "DFNE",
+          "utilidade": "Não Essencial",
+          "gasto": 600,
+          "previsto": 800,
+          "mês": "06.2025"
+        },
+        {
+          "name": "Despesa 9",
+          "categoria": "Alimentação",
+          "tipo": "DVE",
+          "utilidade": "Essencial",
+          "gasto": 1800,
+          "previsto": 2200,
+          "mês": "07.2025"
+        },
+        {
+          "name": "Despesa 10",
+          "categoria": "Educação",
+          "tipo": "DVNE",
+          "utilidade": "Não Essencial",
+          "gasto": 800,
+          "previsto": 1000,
+          "mês": "08.2025"
+        },
+        {
+          "name": "Despesa 11",
+          "categoria": "Lazer",
+          "tipo": "DFE",
+          "utilidade": "Essencial",
+          "gasto": 2500,
+          "previsto": 3300,
+          "mês": "09.2025"
+        },
+        {
+          "name": "Despesa 12",
+          "categoria": "Saúde",
+          "tipo": "DVNE",
+          "utilidade": "Não Essencial",
+          "gasto": 1200,
+          "previsto": 1500,
+          "mês": "10.2025"
+        }
+      ]
+      
+}

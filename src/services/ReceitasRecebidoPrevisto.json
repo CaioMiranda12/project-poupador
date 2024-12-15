@@ -1,9 +1,9 @@
 {
     "receitas": [
-    { "name": "Trabalho 1", "Recebido": 3200, "Previsto": 2500 },
-    { "name": "Trabalho 2", "Recebido": 1500, "Previsto": 3000 },
-    { "name": "Trabalho 3", "Recebido": 1800, "Previsto": 3500 },
-    { "name": "Trabalho 4", "Recebido": 0, "Previsto": 4500 }
+    { "name": "Trabalho 1", "mes": "11.2024", "Recebido": 3200, "Previsto": 2500 },
+    { "name": "Trabalho 2", "mes": "11.2024", "Recebido": 1500, "Previsto": 3000 },
+    { "name": "Trabalho 3", "mes": "12.2024", "Recebido": 1800, "Previsto": 3500 },
+    { "name": "Trabalho 4", "mes": "01.2025", "Recebido": 0, "Previsto": 4500 }
   ]
   
 }

@@ -8,17 +8,20 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  LabelList,
 } from 'recharts';
 
-import saldoAcumuladoPrevisto from '../../services/SaldoAcumuladoPrevisto.json';
+import saldoReceitasDespesas from '../../services/SaldoReceitasDespesas.json';
 
 export function DespesasRightArea({ selectedDate }) {
-  const dataRight = saldoAcumuladoPrevisto.data;
+  const dataRight = saldoReceitasDespesas.productSales;
 
   const selectedData = dataRight.find((item) => item.name === selectedDate);
 
   // Define os dados padrão para evitar erros de renderização
-  const acumulado = selectedData ? selectedData.acumulado : 0;
+  const acumulado = selectedData
+    ? selectedData.Receitas - selectedData.Despesas
+    : 0;
   const previsto = selectedData ? selectedData.previsto : 0;
 
   const chartData = [{ name: selectedDate, acumulado, previsto }];
@@ -30,7 +33,7 @@ export function DespesasRightArea({ selectedDate }) {
         height={300}
         data={chartData}
         margin={{
-          top: 5,
+          top: 30,
           right: 30,
           left: 20,
           bottom: 5,
@@ -45,14 +48,29 @@ export function DespesasRightArea({ selectedDate }) {
 
         <Bar
           dataKey="acumulado"
-          fill="red"
+          fill="#82ca9d"
           activeBar={<Rectangle fill="pink" stroke="blue" />}
-        />
+        >
+          <LabelList
+            dataKey="acumulado"
+            position="top" // Rótulo no topo da barra
+            formatter={(value) => `${value}`} // Formata o valor
+            style={{ fill: '#000', fontWeight: 'bold', fontSize: 22 }}
+          />
+        </Bar>
+
         <Bar
           dataKey="previsto"
           fill="gray"
           activeBar={<Rectangle fill="gold" stroke="purple" />}
-        />
+        >
+          <LabelList
+            dataKey="previsto"
+            position="top" // Rótulo no topo da barra
+            formatter={(value) => `${value}`} // Formata o valor
+            style={{ fill: '#000', fontWeight: 'bold', fontSize: 22 }}
+          />
+        </Bar>
       </BarChart>
     </ResponsiveContainer>
   );

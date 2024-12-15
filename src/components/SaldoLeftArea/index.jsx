@@ -9,8 +9,6 @@ import {
   Line,
 } from 'recharts';
 
-import saldoReceitasDespesas from '../../services/SaldoReceitasDespesas.json';
-
 export function SaldoLeftArea({
   showReceitas,
   showDespesas,

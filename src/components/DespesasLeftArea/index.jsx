@@ -11,12 +11,12 @@ import {
   LabelList,
 } from 'recharts';
 
-import receitasRecebidoPrevisto from '../../services/ReceitasRecebidoPrevisto.json';
+import despesasGastoPrevisto from '../../services/DespesasGastoPrevisto.json';
 import { formatCurrency } from '../../utils/formatCurrency';
 
 function CustomTooltip({ active, payload }) {
   if (active && payload && payload.length) {
-    const { name, Recebido, Previsto } = payload[0].payload;
+    const { name, gasto, previsto } = payload[0].payload;
 
     return (
       <div
@@ -30,17 +30,12 @@ function CustomTooltip({ active, payload }) {
         <p>
           <strong>{name}</strong>
         </p>
-
-        <br />
-
         <p>
-          Recebido: <span style={{ color: '#20b7d9' }}>{Recebido}</span>
+          Gasto: <span style={{ color: 'red' }}>{formatCurrency(gasto)}</span>
         </p>
-
-        <br />
-
         <p>
-          Previsto: <span style={{ color: 'gray' }}>{Previsto}</span>
+          Previsto:{' '}
+          <span style={{ color: 'gray' }}>{formatCurrency(previsto)}</span>
         </p>
       </div>
     );
@@ -49,61 +44,47 @@ function CustomTooltip({ active, payload }) {
 }
 
 function CustomBar(props) {
-  const { fill, x, y, width, height, previsto, recebido } = props;
+  const { x, y, width, height, previsto, gasto } = props;
 
   // Calcula o preenchimento proporcional
-  const recebidoWidth = (recebido / previsto) * width;
-
-  const percentage = ((recebido / previsto) * 100).toFixed(1); // 1 casa decimal
+  const gastoWidth = Math.min((gasto / previsto) * width, width);
+  const percentage = previsto > 0 ? ((gasto / previsto) * 100).toFixed(1) : 0; // Calcula porcentagem apenas se previsto > 0
 
   return (
     <>
-      {/* Parte preenchida (Recebido) */}
-      <rect x={x} y={y} width={recebidoWidth} height={height} fill="#20b7d9" />
+      {/* Parte preenchida (Gasto) */}
+      <rect x={x} y={y} width={gastoWidth} height={height} fill="red" />
 
       {/* Parte não preenchida (restante do Previsto) */}
       <rect
-        x={x + recebidoWidth}
+        x={x + gastoWidth}
         y={y}
-        width={width - recebidoWidth}
+        width={width - gastoWidth}
         height={height}
         fill="gray"
       />
 
-      {/* Exibe a porcentagem no final da barra Recebido */}
-      {recebidoWidth > 0 ? (
-        <text
-          x={recebidoWidth + 5} // 5px de distância da barra
-          y={y + height / 2 + 5} // Centraliza verticalmente no meio da barra
-          fill="#fff"
-          fontSize="18px" // Tamanho da fonte
-          fontWeight="bold" // Texto em negrito
-        >
-          {`${percentage}%`}
-        </text>
-      ) : (
-        // Exibe "0%" no início da barra cinza se Recebido for zero
-        <text
-          x={x + 5} // Posicionado no início da barra
-          y={y + height / 2 + 5} // Centraliza verticalmente no meio da barra
-          fill="#fff"
-          fontSize="18px" // Tamanho da fonte
-          fontWeight="bold" // Texto em negrito
-        >
-          0%
-        </text>
-      )}
+      {/* Exibe a porcentagem no final da barra de Gasto */}
+      <text
+        x={gastoWidth} // Posiciona 5px após o final da barra de Gasto
+        y={y + height / 2 + 5} // Centraliza verticalmente
+        fill="#fff"
+        fontSize="18px"
+        fontWeight="bold"
+      >
+        {`${percentage}%`}
+      </text>
     </>
   );
 }
 
-export function ReceitasLeftArea() {
-  const { receitas } = receitasRecebidoPrevisto;
+export function DespesasLeftArea() {
+  const { despesas } = despesasGastoPrevisto;
 
-  const newReceitas = receitas.map((item) => ({
+  const newDespesas = despesas.map((item) => ({
     ...item,
-    PrevistoTotal: item.Previsto || item.Recebido, // Garante que o total seja baseado no Previsto
-    Diferenca: item.Recebido - item.Previsto,
+    PrevistoTotal: item.previsto || item.gasto, // Garante que o total seja baseado no Previsto
+    Diferenca: item.gasto - item.previsto,
   }));
 
   return (
@@ -111,7 +92,7 @@ export function ReceitasLeftArea() {
       <BarChart
         width={500}
         height={300}
-        data={newReceitas}
+        data={newDespesas}
         margin={{
           top: 20,
           right: 30,
@@ -119,6 +100,7 @@ export function ReceitasLeftArea() {
           bottom: 5,
         }}
         layout="vertical"
+        barGap={20}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis type="number" />
@@ -126,17 +108,19 @@ export function ReceitasLeftArea() {
         <Tooltip content={<CustomTooltip />} />
 
         <Bar
-          dataKey="PrevistoTotal" // Total sempre baseado no Previsto
+          dataKey="PrevistoTotal"
+          fill="gray"
+          barSize={30}
           shape={(props) => (
             <CustomBar
               {...props}
-              previsto={props.payload.PrevistoTotal} // Tamanho total da barra
-              recebido={props.payload.Recebido} // Tamanho preenchido (Recebido)
+              previsto={props.payload.PrevistoTotal}
+              gasto={props.payload.gasto}
             />
           )}
           isAnimationActive={false}
-          barSize={50}
         >
+          {/* LabelList mostra a diferença ao final */}
           <LabelList
             dataKey="Diferenca"
             position="top"
@@ -158,13 +142,13 @@ export function ReceitasLeftArea() {
 }
 
 CustomBar.propTypes = {
-  fill: PropTypes.string, // Cor de preenchimento
+  // fill: PropTypes.string, // Cor de preenchimento
   x: PropTypes.number.isRequired, // Posição X
   y: PropTypes.number.isRequired, // Posição Y
   width: PropTypes.number.isRequired, // Largura da barra
   height: PropTypes.number.isRequired, // Altura da barra
   previsto: PropTypes.number.isRequired, // Valor total previsto
-  recebido: PropTypes.number.isRequired, // Valor recebido
+  gasto: PropTypes.number.isRequired, // Valor recebido
   payload: PropTypes.shape({
     PrevistoTotal: PropTypes.number.isRequired, // Valor total previsto
     Recebido: PropTypes.number.isRequired, // Valor recebido
