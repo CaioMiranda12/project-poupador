@@ -48,31 +48,25 @@ function CustomBar(props) {
 
   // Calcula o preenchimento proporcional para o gasto, mas a largura não deve ultrapassar o valor do previsto
   const gastoWidth = Math.min((gasto / previsto) * width, width); // Não ultrapassa a largura total do gráfico
-  const percentage = previsto > 0 ? ((gasto / previsto) * 100).toFixed(1) : 0; // Calcula a porcentagem do gasto sobre o previsto
+  const previstoWidth = width; // Barra completa baseada no valor previsto
 
   return (
     <>
+      {/* Parte preenchida (Previsto) */}
+      <rect x={x} y={y} width={previstoWidth} height={height} fill="gray" />
+
       {/* Parte preenchida (Gasto) */}
       <rect x={x} y={y} width={gastoWidth} height={height} fill="red" />
 
-      {/* Parte não preenchida (restante do Previsto) */}
-      <rect
-        x={x + gastoWidth} // Inicia após o gasto
-        y={y}
-        width={width - gastoWidth} // Preenche o restante da largura até o valor previsto
-        height={height}
-        fill="gray"
-      />
-
-      {/* Exibe a porcentagem no final da barra de Gasto */}
+      {/* Exibe os valores ao lado das barras */}
       <text
-        x={x + gastoWidth + 5} // Posiciona um pouco após a barra de gasto
+        x={x + previstoWidth + 5} // Posiciona após a barra de previsto
         y={y + height / 2 + 5} // Centraliza verticalmente
-        fill="#fff"
-        fontSize="18px"
+        fill="#000"
+        fontSize="14px"
         fontWeight="bold"
       >
-        {`${percentage}%`}
+        {`${formatCurrency(previsto - gasto)}`}
       </text>
     </>
   );
@@ -81,18 +75,28 @@ function CustomBar(props) {
 export function DespesasTypeArea() {
   const { despesas } = despesasGastoPrevisto;
 
-  const newDespesas = despesas.map((item) => ({
-    ...item,
-    PrevistoTotal: item.previsto || item.gasto, // Garante que o total seja baseado no Previsto
-    Diferenca: item.gasto - item.previsto,
-  }));
+  // Agrupar os gastos por tipo
+  const despesasAgrupadas = despesas.reduce((acc, item) => {
+    const tipoExistente = acc.find((d) => d.tipo === item.tipo);
+    if (tipoExistente) {
+      tipoExistente.gasto += item.gasto;
+      tipoExistente.previsto += item.previsto;
+    } else {
+      acc.push({
+        tipo: item.tipo,
+        gasto: item.gasto,
+        previsto: item.previsto,
+      });
+    }
+    return acc;
+  }, []);
 
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart
         width={500}
         height={300}
-        data={newDespesas}
+        data={despesasAgrupadas}
         margin={{
           top: 20,
           right: 30,
@@ -104,38 +108,22 @@ export function DespesasTypeArea() {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis type="number" domain={[0, 'dataMax + 500']} />
-        <YAxis type="category" dataKey="name" />
+        <YAxis type="category" dataKey="tipo" />
         <Tooltip content={<CustomTooltip />} />
 
+        {/* Barra personalizada combinada */}
         <Bar
-          dataKey="PrevistoTotal"
-          fill="gray"
-          barSize={30}
+          dataKey="previsto"
           shape={(props) => (
             <CustomBar
               {...props}
-              previsto={props.payload.PrevistoTotal}
+              previsto={props.payload.previsto}
               gasto={props.payload.gasto}
             />
           )}
+          barSize={30}
           isAnimationActive={false}
-        >
-          {/* LabelList mostra a diferença ao final */}
-          <LabelList
-            dataKey="Diferenca"
-            position="right"
-            formatter={(value) =>
-              value > 0
-                ? `+${formatCurrency(value)}`
-                : `${formatCurrency(value)}`
-            }
-            style={{
-              fill: '#000',
-              fontWeight: 'bold',
-              fontSize: '18px',
-            }}
-          />
-        </Bar>
+        />
       </BarChart>
     </ResponsiveContainer>
   );
