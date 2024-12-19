@@ -14,9 +14,9 @@ import {
   ReceitasRightArea,
   BarGraphVertical,
 } from '../../components';
+import despesasGastoPrevisto from '../../services/DespesasGastoPrevisto.json';
 import receitasRecebidoPrevisto from '../../services/ReceitasRecebidoPrevisto.json';
 import saldoReceitasDespesas from '../../services/SaldoReceitasDespesas.json';
-import { calcDiferencaPorcentagem } from '../../utils/calcDiferencaPorcentagem';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { formatDate } from '../../utils/formatDate';
 import {
@@ -34,11 +34,11 @@ import {
   PopUp,
   TopPopUp,
   BottomPopUp,
-  GraphBarVerticalInfo,
 } from './styles';
 
 const { productSales } = saldoReceitasDespesas;
 const { receitas } = receitasRecebidoPrevisto;
+const { despesas } = despesasGastoPrevisto;
 
 export function MensalBalance() {
   const carouselRef = useRef(null);
@@ -75,14 +75,6 @@ export function MensalBalance() {
 
   // Segundo Gráfico: ========================================================
 
-  // Estados para valores da receitaMensal e da despesaMensal do segundo gráfico
-  const [receitasRecebidoMensal, setReceitasRecebidoMensal] = useState(
-    receitas[0].Recebido,
-  );
-  const [receitasPrevistoMensal, setReceitasPrevistoMensal] = useState(
-    receitas[0].Previsto,
-  );
-
   // Filtrar os dados para o mês selecionado
   const receitasFiltradas = receitas.filter(
     (item) => item.mes === selectedDate,
@@ -101,6 +93,27 @@ export function MensalBalance() {
   // Preparar os dados para o gráfico
   const chartData = [dadosAgrupados]; // Apenas um objeto com os valores do mês selecionado
 
+  // Terceiro Gráfico: ========================================================
+
+  // Filtrar os dados para o mês selecionado
+  const despesasFiltradas = despesas.filter(
+    (item) => item.mes === selectedDate,
+  );
+
+  // Somar valores para o mês selecionado
+  const dadosDespesasAgrupados = despesasFiltradas.reduce(
+    (acc, item) => {
+      acc.gasto += item.gasto;
+      acc.previsto += item.previsto;
+      return acc;
+    },
+    { mes: selectedDate, gasto: 0, previsto: 0 },
+  );
+
+  // Preparar os dados para o gráfico
+  const chartDataDespesas = [dadosDespesasAgrupados]; // Apenas um objeto com os valores do mês selecionado
+
+  // ===========================================================================
   // Funções de alterar visualização (Pop-up)
   const togglePopup = () => {
     setIsPopupVisible((prev) => !prev);
@@ -131,9 +144,6 @@ export function MensalBalance() {
     // Info de Receitas
     if (receitasSelectData) {
       setSelectedDate(newDate);
-
-      setReceitasRecebidoMensal(receitasSelectData.Recebido);
-      setReceitasPrevistoMensal(receitasSelectData.Previsto);
     }
   };
   const handlePreviousMonth = (currentItem) => {
@@ -400,13 +410,15 @@ export function MensalBalance() {
                       width: 200,
                     }}
                   />
-                  <p>Gasto: {formatCurrency(totalRecebido)}</p>
+                  <p>Gasto: {formatCurrency(chartDataDespesas[0].gasto)}</p>
                 </div>
                 <div>
                   <div
                     style={{ backgroundColor: 'gray', height: 6, width: 200 }}
                   />
-                  <p>Previsto: {formatCurrency(totalPrevistoDeRecebido)}</p>
+                  <p>
+                    Previsto: {formatCurrency(chartDataDespesas[0].previsto)}
+                  </p>
                 </div>
                 <div style={{ display: 'flex' }}>
                   <div
@@ -418,17 +430,21 @@ export function MensalBalance() {
                   />
                   <SaldoText>
                     <strong>Diferença</strong>:{' '}
-                    {totalRecebido - totalPrevistoDeRecebido >= 0 ? (
+                    {chartDataDespesas[0].gasto -
+                      chartDataDespesas[0].previsto <=
+                    0 ? (
                       <span style={{ color: '#20b7d9' }}>
                         +
                         {formatCurrency(
-                          totalRecebido - totalPrevistoDeRecebido,
+                          chartDataDespesas[0].previsto -
+                            chartDataDespesas[0].gasto,
                         )}
                       </span>
                     ) : (
                       <span style={{ color: 'red' }}>
                         {formatCurrency(
-                          totalRecebido - totalPrevistoDeRecebido,
+                          chartDataDespesas[0].previsto -
+                            chartDataDespesas[0].gasto,
                         )}
                       </span>
                     )}
@@ -447,8 +463,8 @@ export function MensalBalance() {
             title="Despesas"
             firstName="Gasto"
             secondName="Previsto"
-            firstMensalValue={saldoReceitaMensal - saldoDespesaMensal}
-            secondMensalValue={saldoPrevistoMensal}
+            firstMensalValue={chartDataDespesas[0].gasto}
+            secondMensalValue={chartDataDespesas[0].previsto}
             Graph={SaldoRightArea}
             firstBg="red"
             secondBg="gray"

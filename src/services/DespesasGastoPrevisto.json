@@ -7,7 +7,7 @@
           "utilidade": "Essencial",
           "gasto": 2300,
           "previsto": 3000,
-          "mês": "11.2024"
+          "mes": "11.2024"
         },
         {
           "name": "Despesa 2",
@@ -16,7 +16,7 @@
           "utilidade": "Não Essencial",
           "gasto": 1500,
           "previsto": 2500,
-          "mês": "12.2024"
+          "mes": "12.2024"
         },
         {
           "name": "Despesa 3",
@@ -25,7 +25,7 @@
           "utilidade": "Essencial",
           "gasto": 800,
           "previsto": 1000,
-          "mês": "01.2025"
+          "mes": "01.2025"
         },
         {
           "name": "Despesa 4",
@@ -34,7 +34,7 @@
           "utilidade": "Essencial",
           "gasto": 2000,
           "previsto": 2200,
-          "mês": "02.2025"
+          "mes": "02.2025"
         },
         {
           "name": "Despesa 5",
@@ -43,7 +43,7 @@
           "utilidade": "Não Essencial",
           "gasto": 1200,
           "previsto": 1500,
-          "mês": "03.2025"
+          "mes": "03.2025"
         },
         {
           "name": "Despesa 6",
@@ -52,7 +52,7 @@
           "utilidade": "Essencial",
           "gasto": 1000,
           "previsto": 1300,
-          "mês": "04.2025"
+          "mes": "04.2025"
         },
         {
           "name": "Despesa 7",
@@ -61,7 +61,7 @@
           "utilidade": "Essencial",
           "gasto": 1500,
           "previsto": 1800,
-          "mês": "05.2025"
+          "mes": "05.2025"
         },
         {
           "name": "Despesa 8",
@@ -70,7 +70,7 @@
           "utilidade": "Não Essencial",
           "gasto": 600,
           "previsto": 800,
-          "mês": "06.2025"
+          "mes": "06.2025"
         },
         {
           "name": "Despesa 9",
@@ -79,7 +79,7 @@
           "utilidade": "Essencial",
           "gasto": 1800,
           "previsto": 2200,
-          "mês": "07.2025"
+          "mes": "07.2025"
         },
         {
           "name": "Despesa 10",
@@ -88,7 +88,7 @@
           "utilidade": "Não Essencial",
           "gasto": 800,
           "previsto": 1000,
-          "mês": "08.2025"
+          "mes": "08.2025"
         },
         {
           "name": "Despesa 11",
@@ -97,7 +97,7 @@
           "utilidade": "Essencial",
           "gasto": 3500,
           "previsto": 3300,
-          "mês": "09.2025"
+          "mes": "09.2025"
         },
         {
           "name": "Despesa 12",
@@ -106,7 +106,7 @@
           "utilidade": "Não Essencial",
           "gasto": 1200,
           "previsto": 1500,
-          "mês": "10.2025"
+          "mes": "10.2025"
         }
       ]
       
