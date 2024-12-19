@@ -46,9 +46,9 @@ function CustomTooltip({ active, payload }) {
 function CustomBar(props) {
   const { x, y, width, height, previsto, gasto } = props;
 
-  // Calcula o preenchimento proporcional
-  const gastoWidth = Math.min((gasto / previsto) * width, width);
-  const percentage = previsto > 0 ? ((gasto / previsto) * 100).toFixed(1) : 0; // Calcula porcentagem apenas se previsto > 0
+  // Calcula o preenchimento proporcional para o gasto, mas a largura não deve ultrapassar o valor do previsto
+  const gastoWidth = Math.min((gasto / previsto) * width, width); // Não ultrapassa a largura total do gráfico
+  const percentage = previsto > 0 ? ((gasto / previsto) * 100).toFixed(1) : 0; // Calcula a porcentagem do gasto sobre o previsto
 
   return (
     <>
@@ -57,16 +57,16 @@ function CustomBar(props) {
 
       {/* Parte não preenchida (restante do Previsto) */}
       <rect
-        x={x + gastoWidth}
+        x={x + gastoWidth} // Inicia após o gasto
         y={y}
-        width={width - gastoWidth}
+        width={width - gastoWidth} // Preenche o restante da largura até o valor previsto
         height={height}
         fill="gray"
       />
 
       {/* Exibe a porcentagem no final da barra de Gasto */}
       <text
-        x={gastoWidth} // Posiciona 5px após o final da barra de Gasto
+        x={x + gastoWidth + 5} // Posiciona um pouco após a barra de gasto
         y={y + height / 2 + 5} // Centraliza verticalmente
         fill="#fff"
         fontSize="18px"
@@ -88,7 +88,7 @@ export function DespesasLeftArea() {
   }));
 
   return (
-    <ResponsiveContainer width="90%" height="100%">
+    <ResponsiveContainer width="100%" height="100%">
       <BarChart
         width={500}
         height={300}

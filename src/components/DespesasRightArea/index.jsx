@@ -48,7 +48,7 @@ export function DespesasRightArea({ selectedDate }) {
 
         <Bar
           dataKey="acumulado"
-          fill="#82ca9d"
+          fill="red"
           activeBar={<Rectangle fill="pink" stroke="blue" />}
         >
           <LabelList

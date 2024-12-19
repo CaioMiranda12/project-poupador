@@ -5,12 +5,15 @@ import { TbTargetArrow, TbChecklist } from 'react-icons/tb';
 import { VscGraphLine } from 'react-icons/vsc';
 
 import Logo from '../../assets/Versões_Eu Poupador_57.svg';
-import { DespesasLeftArea } from '../../components/DespesasLeftArea';
-import { DespesasRightArea } from '../../components/DespesasRightArea';
-import { ReceitasLeftArea } from '../../components/ReceitasLeftArea';
-import { ReceitasRightArea } from '../../components/ReceitasRightArea';
-import { SaldoLeftArea } from '../../components/SaldoLeftArea';
-import { SaldoRightArea } from '../../components/SaldoRightArea';
+import {
+  SaldoRightArea,
+  SaldoLeftArea,
+  DespesasLeftArea,
+  DespesasRightArea,
+  ReceitasLeftArea,
+  ReceitasRightArea,
+  BarGraphVertical,
+} from '../../components';
 import receitasRecebidoPrevisto from '../../services/ReceitasRecebidoPrevisto.json';
 import saldoReceitasDespesas from '../../services/SaldoReceitasDespesas.json';
 import { calcDiferencaPorcentagem } from '../../utils/calcDiferencaPorcentagem';
@@ -34,54 +37,87 @@ import {
   GraphBarVerticalInfo,
 } from './styles';
 
+const { productSales } = saldoReceitasDespesas;
+const { receitas } = receitasRecebidoPrevisto;
+
 export function MensalBalance() {
-  const { productSales } = saldoReceitasDespesas;
+  const carouselRef = useRef(null);
 
-  const { receitas } = receitasRecebidoPrevisto;
-
-  const DateProductSales = productSales.map((item) => item.name);
-
+  // Estado de mostrar Alterar Visualização (Pop-Up)
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
+  // Estados de mostrar valores no SaldoLeftArea
   const [showReceitas, setShowReceitas] = useState(true);
   const [showDespesas, setShowDespesas] = useState(true);
   const [showSaldo, setShowSaldo] = useState(true);
 
+  // Estados para pegar a data do carrousel
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedDate, setSelectedDate] = useState(productSales[0].name);
 
-  const [receitaMensal, setReceitaMensal] = useState(productSales[0].Receitas);
-  const [despesaMensal, setDespesaMensal] = useState(productSales[0].Despesas);
+  // Primeiro Gráfico: ========================================================
 
-  const [acumuladoMensal, setAcumuladoMensal] = useState(
+  // Estados para valores da saldoReceitaMensal e da saldoDespesaMensal do primeiro gráfico
+  const [saldoReceitaMensal, setSaldoReceitaMensal] = useState(
+    productSales[0].Receitas,
+  );
+  const [saldoDespesaMensal, setSaldoDespesaMensal] = useState(
+    productSales[0].Despesas,
+  );
+
+  // Estados para valores de saldoAcumuladoMensal e saldoPrevistoMensal
+  const [saldoAcumuladoMensal, setSaldoAcumuladoMensal] = useState(
     productSales[0].Receitas - productSales[0].Despesas,
   );
-  const [previstoMensal, setPrevistoMensal] = useState(
+  const [saldoPrevistoMensal, setSaldoPrevistoMensal] = useState(
     productSales[0].previsto,
   );
 
+  // Segundo Gráfico: ========================================================
+
+  // Estados para valores da receitaMensal e da despesaMensal do segundo gráfico
+  const [receitasRecebidoMensal, setReceitasRecebidoMensal] = useState(
+    receitas[0].Recebido,
+  );
+  const [receitasPrevistoMensal, setReceitasPrevistoMensal] = useState(
+    receitas[0].Previsto,
+  );
+
+  // Funções de alterar visualização (Pop-up)
   const togglePopup = () => {
     setIsPopupVisible((prev) => !prev);
   };
-
   const handleReceitasChange = () => setShowReceitas((prev) => !prev);
   const handleDespesasChange = () => setShowDespesas((prev) => !prev);
   const handleSaldoChange = () => setShowSaldo((prev) => !prev);
 
-  const carouselRef = useRef(null);
+  // Funções do carrousel
+  const DateProductSales = productSales.map((item) => item.name);
 
   const handleMonthChange = (newDate) => {
-    const selectedData = productSales.find((item) => item.name === newDate);
+    const saldoSelectData = productSales.find((item) => item.name === newDate);
+    const receitasSelectData = receitas.find((item) => item.mes === newDate);
 
-    if (selectedData) {
-      setReceitaMensal(selectedData.Receitas);
-      setDespesaMensal(selectedData.Despesas);
+    // Info de Saldo
+    if (saldoSelectData) {
       setSelectedDate(newDate);
-      setAcumuladoMensal(selectedData.Receitas - selectedData.Despesas);
-      setPrevistoMensal(selectedData.previsto);
+
+      setSaldoReceitaMensal(saldoSelectData.Receitas);
+      setSaldoDespesaMensal(saldoSelectData.Despesas);
+      setSaldoAcumuladoMensal(
+        saldoSelectData.Receitas - saldoSelectData.Despesas,
+      );
+      setSaldoPrevistoMensal(saldoSelectData.previsto);
+    }
+
+    // Info de Receitas
+    if (receitasSelectData) {
+      setSelectedDate(newDate);
+
+      setReceitasRecebidoMensal(receitasSelectData.Recebido);
+      setReceitasPrevistoMensal(receitasSelectData.Previsto);
     }
   };
-
   const handlePreviousMonth = (currentItem) => {
     if (currentIndex > 0) {
       // const newIndex = currentIndex - 1; versao antiga (pior)
@@ -91,7 +127,6 @@ export function MensalBalance() {
       handleMonthChange(newDate);
     }
   };
-
   const handleNextMonth = (currentItem) => {
     const newIndex = currentItem.index;
     setCurrentIndex(newIndex);
@@ -105,6 +140,7 @@ export function MensalBalance() {
     currentIndex + 1, // Índice final (mês atual incluído)
   );
 
+  // Apagar daqui pra baixo depois
   const totalRecebido = receitas.reduce((acc, item) => item.Recebido + acc, 0);
 
   const totalPrevistoDeRecebido = receitas.reduce(
@@ -164,13 +200,13 @@ export function MensalBalance() {
                       width: 200,
                     }}
                   />
-                  <p>Receitas: {formatCurrency(receitaMensal)}</p>
+                  <p>Receitas: {formatCurrency(saldoReceitaMensal)}</p>
                 </div>
                 <div>
                   <div
                     style={{ backgroundColor: 'red', height: 6, width: 200 }}
                   />
-                  <p>Despesas: {formatCurrency(despesaMensal)}</p>
+                  <p>Despesas: {formatCurrency(saldoDespesaMensal)}</p>
                 </div>
                 <div style={{ display: 'flex' }}>
                   <div
@@ -178,13 +214,18 @@ export function MensalBalance() {
                   />
                   <SaldoText>
                     <strong>Saldo</strong>:{' '}
-                    {receitaMensal - despesaMensal >= 0 ? (
+                    {saldoReceitaMensal - saldoDespesaMensal >= 0 ? (
                       <span style={{ color: '#20b7d9' }}>
-                        +{formatCurrency(receitaMensal - despesaMensal)}
+                        +
+                        {formatCurrency(
+                          saldoReceitaMensal - saldoDespesaMensal,
+                        )}
                       </span>
                     ) : (
                       <span style={{ color: 'red' }}>
-                        {formatCurrency(receitaMensal - despesaMensal)}
+                        {formatCurrency(
+                          saldoReceitaMensal - saldoDespesaMensal,
+                        )}
                       </span>
                     )}
                   </SaldoText>
@@ -243,76 +284,13 @@ export function MensalBalance() {
             </PopUpContainer>
           )}
 
-          <GraphItem>
-            <GraphInfo>
-              <LeftPart>
-                <h3>Saldo: Acumulado vs Previsto</h3>
-
-                <GraphBarVerticalInfo>
-                  <div>
-                    <div
-                      style={{
-                        backgroundColor: '#82ca9d',
-                        height: 6,
-                        width: 200,
-                      }}
-                    />
-                    <p>
-                      Acumulado: {formatCurrency(receitaMensal - despesaMensal)}
-                    </p>
-                  </div>
-                  <div>
-                    <div
-                      style={{
-                        backgroundColor: 'gray',
-                        height: 6,
-                        width: 200,
-                      }}
-                    />
-                    <p>Previsto: {formatCurrency(previstoMensal)}</p>
-                  </div>
-                  <div>
-                    <div
-                      style={{
-                        backgroundColor: 'transparent',
-                        height: 6,
-                        width: 200,
-                      }}
-                    />
-                    <p>
-                      <strong>Diferença: </strong>
-
-                      {acumuladoMensal - previstoMensal >= 0 ? (
-                        <span style={{ color: '#20b7d9' }}>
-                          +{formatCurrency(acumuladoMensal - previstoMensal)}{' '}
-                          <br /> (
-                          {calcDiferencaPorcentagem(
-                            acumuladoMensal,
-                            previstoMensal,
-                          )}
-                          )
-                        </span>
-                      ) : (
-                        <span style={{ color: 'red' }}>
-                          {formatCurrency(acumuladoMensal - previstoMensal)}{' '}
-                          <br /> (
-                          {calcDiferencaPorcentagem(
-                            acumuladoMensal,
-                            previstoMensal,
-                          )}
-                          )
-                        </span>
-                      )}
-                    </p>
-                  </div>
-                </GraphBarVerticalInfo>
-              </LeftPart>
-            </GraphInfo>
-
-            <GraphShowContainer>
-              <SaldoRightArea selectedDate={selectedDate} />
-            </GraphShowContainer>
-          </GraphItem>
+          <BarGraphVertical
+            selectedDate={selectedDate}
+            firstName="Acumulado"
+            secondName="Previsto"
+            firstMensalValue={saldoReceitaMensal - saldoDespesaMensal}
+            secondMensalValue={saldoPrevistoMensal}
+          />
         </GraphsContainer>
 
         <GraphsContainer>
@@ -373,75 +351,13 @@ export function MensalBalance() {
             </GraphShowContainer>
           </GraphItem>
 
-          {/* falta alterar os valores */}
-          <GraphItem>
-            <GraphInfo>
-              <LeftPart>
-                <h3>Receitas: Recebido vs Previsto</h3>
-
-                <GraphBarVerticalInfo>
-                  <div>
-                    <div
-                      style={{
-                        backgroundColor: '#20b7d9',
-                        height: 10,
-                        width: 200,
-                      }}
-                    />
-                    <p>Recebido: {formatCurrency(acumuladoMensal)}</p>
-                  </div>
-                  <div>
-                    <div
-                      style={{
-                        backgroundColor: 'gray',
-                        height: 10,
-                        width: 200,
-                      }}
-                    />
-                    <p>Previsto: {formatCurrency(previstoMensal)}</p>
-                  </div>
-                  <div>
-                    <div
-                      style={{
-                        backgroundColor: 'transparent',
-                        height: 10,
-                        width: 200,
-                      }}
-                    />
-                    <p>
-                      <strong>Diferença: </strong>
-
-                      {acumuladoMensal - previstoMensal >= 0 ? (
-                        <span style={{ color: '#20b7d9' }}>
-                          +{formatCurrency(acumuladoMensal - previstoMensal)}{' '}
-                          <br /> (
-                          {calcDiferencaPorcentagem(
-                            acumuladoMensal,
-                            previstoMensal,
-                          )}
-                          )
-                        </span>
-                      ) : (
-                        <span style={{ color: 'red' }}>
-                          {formatCurrency(acumuladoMensal - previstoMensal)}{' '}
-                          <br /> (
-                          {calcDiferencaPorcentagem(
-                            acumuladoMensal,
-                            previstoMensal,
-                          )}
-                          )
-                        </span>
-                      )}
-                    </p>
-                  </div>
-                </GraphBarVerticalInfo>
-              </LeftPart>
-            </GraphInfo>
-
-            <GraphShowContainer>
-              <ReceitasRightArea selectedDate={selectedDate} />
-            </GraphShowContainer>
-          </GraphItem>
+          <BarGraphVertical
+            selectedDate={selectedDate}
+            firstName="Recebido"
+            secondName="Previsto"
+            firstMensalValue={receitasRecebidoMensal}
+            secondMensalValue={receitasPrevistoMensal}
+          />
 
           <GraphItem>
             <GraphInfo>
@@ -510,50 +426,55 @@ export function MensalBalance() {
                     <div
                       style={{
                         backgroundColor: 'red',
-                        height: 10,
+                        height: 6,
                         width: 200,
                       }}
                     />
-                    <p>Recebido: {formatCurrency(acumuladoMensal)}</p>
+                    <p>Recebido: {formatCurrency(saldoAcumuladoMensal)}</p>
                   </div>
                   <div>
                     <div
                       style={{
                         backgroundColor: 'gray',
-                        height: 10,
+                        height: 6,
                         width: 200,
                       }}
                     />
-                    <p>Previsto: {formatCurrency(previstoMensal)}</p>
+                    <p>Previsto: {formatCurrency(saldoPrevistoMensal)}</p>
                   </div>
                   <div>
                     <div
                       style={{
                         backgroundColor: 'transparent',
-                        height: 10,
+                        height: 6,
                         width: 200,
                       }}
                     />
                     <p>
                       <strong>Diferença: </strong>
 
-                      {acumuladoMensal - previstoMensal >= 0 ? (
+                      {saldoAcumuladoMensal - saldoPrevistoMensal >= 0 ? (
                         <span style={{ color: '#20b7d9' }}>
-                          +{formatCurrency(acumuladoMensal - previstoMensal)}{' '}
+                          +
+                          {formatCurrency(
+                            saldoAcumuladoMensal - saldoPrevistoMensal,
+                          )}{' '}
                           <br /> (
                           {calcDiferencaPorcentagem(
-                            acumuladoMensal,
-                            previstoMensal,
+                            saldoAcumuladoMensal,
+                            saldoPrevistoMensal,
                           )}
                           )
                         </span>
                       ) : (
                         <span style={{ color: 'red' }}>
-                          {formatCurrency(acumuladoMensal - previstoMensal)}{' '}
+                          {formatCurrency(
+                            saldoAcumuladoMensal - saldoPrevistoMensal,
+                          )}{' '}
                           <br /> (
                           {calcDiferencaPorcentagem(
-                            acumuladoMensal,
-                            previstoMensal,
+                            saldoAcumuladoMensal,
+                            saldoPrevistoMensal,
                           )}
                           )
                         </span>

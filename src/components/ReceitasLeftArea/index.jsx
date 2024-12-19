@@ -121,7 +121,7 @@ export function ReceitasLeftArea() {
         layout="vertical"
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis type="number" />
+        <XAxis type="number" domain={[0, 'dataMax + 500']} />
         <YAxis type="category" dataKey="name" />
         <Tooltip content={<CustomTooltip />} />
 
