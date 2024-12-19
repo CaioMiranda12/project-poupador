@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types';
 
 import { GraphShowContainer } from '../../pages/MensalBalance/styles';
-import saldoReceitasDespesas from '../../services/SaldoReceitasDespesas.json';
 import { calcDiferencaPorcentagem } from '../../utils/calcDiferencaPorcentagem';
 import { formatCurrency } from '../../utils/formatCurrency';
-import { SaldoRightArea } from '../SaldoRightArea';
 import { GraphBarVerticalInfo, GraphInfo, GraphItem, TopPart } from './styles';
 
 export function BarGraphVertical({
@@ -13,10 +11,10 @@ export function BarGraphVertical({
   firstName,
   secondName,
   selectedDate,
+  Graph,
+  firstBg,
+  secondBg,
 }) {
-  // firstMensalValue = receitaMensal - despesaMensal (acumuladoMensal = saldoMensal)
-  // secondMensalValue = previstoMensal
-
   return (
     <GraphItem>
       <GraphInfo>
@@ -29,7 +27,7 @@ export function BarGraphVertical({
             <div>
               <div
                 style={{
-                  backgroundColor: '#82ca9d',
+                  backgroundColor: `${firstBg}`,
                   height: 6,
                   width: 200,
                 }}
@@ -41,7 +39,7 @@ export function BarGraphVertical({
             <div>
               <div
                 style={{
-                  backgroundColor: 'gray',
+                  backgroundColor: `${secondBg}`,
                   height: 6,
                   width: 200,
                 }}
@@ -89,7 +87,7 @@ export function BarGraphVertical({
       </GraphInfo>
 
       <GraphShowContainer>
-        <SaldoRightArea selectedDate={selectedDate} />
+        {Graph && <Graph selectedDate={selectedDate} />}
       </GraphShowContainer>
     </GraphItem>
   );
@@ -101,4 +99,7 @@ BarGraphVertical.propTypes = {
   firstName: PropTypes.string,
   secondName: PropTypes.string,
   selectedDate: PropTypes.string,
+  Graph: PropTypes.elementType, // Um componente React
+  firstBg: PropTypes.string,
+  secondBg: PropTypes.string,
 };

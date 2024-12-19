@@ -12,7 +12,6 @@ import {
 } from 'recharts';
 
 import receitasRecebidoPrevisto from '../../services/ReceitasRecebidoPrevisto.json';
-import { formatCurrency } from '../../utils/formatCurrency';
 
 export function ReceitasRightArea({ selectedDate }) {
   const { receitas } = receitasRecebidoPrevisto;

@@ -83,6 +83,24 @@ export function MensalBalance() {
     receitas[0].Previsto,
   );
 
+  // Filtrar os dados para o mês selecionado
+  const receitasFiltradas = receitas.filter(
+    (item) => item.mes === selectedDate,
+  );
+
+  // Somar valores para o mês selecionado
+  const dadosAgrupados = receitasFiltradas.reduce(
+    (acc, item) => {
+      acc.Recebido += item.Recebido;
+      acc.Previsto += item.Previsto;
+      return acc;
+    },
+    { mes: selectedDate, Recebido: 0, Previsto: 0 },
+  );
+
+  // Preparar os dados para o gráfico
+  const chartData = [dadosAgrupados]; // Apenas um objeto com os valores do mês selecionado
+
   // Funções de alterar visualização (Pop-up)
   const togglePopup = () => {
     setIsPopupVisible((prev) => !prev);
@@ -290,6 +308,9 @@ export function MensalBalance() {
             secondName="Previsto"
             firstMensalValue={saldoReceitaMensal - saldoDespesaMensal}
             secondMensalValue={saldoPrevistoMensal}
+            Graph={SaldoRightArea}
+            firstBg="#82ca9d"
+            secondBg="gray"
           />
         </GraphsContainer>
 
@@ -355,8 +376,11 @@ export function MensalBalance() {
             selectedDate={selectedDate}
             firstName="Recebido"
             secondName="Previsto"
-            firstMensalValue={receitasRecebidoMensal}
-            secondMensalValue={receitasPrevistoMensal}
+            firstMensalValue={chartData[0].Recebido}
+            secondMensalValue={chartData[0].Previsto}
+            Graph={ReceitasRightArea}
+            firstBg="#20b7d9"
+            secondBg="gray"
           />
 
           <GraphItem>
@@ -416,79 +440,16 @@ export function MensalBalance() {
             </GraphShowContainer>
           </GraphItem>
 
-          <GraphItem>
-            <GraphInfo>
-              <LeftPart>
-                <h3>Despesas: Gasto vs Previsto</h3>
-
-                <GraphBarVerticalInfo>
-                  <div>
-                    <div
-                      style={{
-                        backgroundColor: 'red',
-                        height: 6,
-                        width: 200,
-                      }}
-                    />
-                    <p>Recebido: {formatCurrency(saldoAcumuladoMensal)}</p>
-                  </div>
-                  <div>
-                    <div
-                      style={{
-                        backgroundColor: 'gray',
-                        height: 6,
-                        width: 200,
-                      }}
-                    />
-                    <p>Previsto: {formatCurrency(saldoPrevistoMensal)}</p>
-                  </div>
-                  <div>
-                    <div
-                      style={{
-                        backgroundColor: 'transparent',
-                        height: 6,
-                        width: 200,
-                      }}
-                    />
-                    <p>
-                      <strong>Diferença: </strong>
-
-                      {saldoAcumuladoMensal - saldoPrevistoMensal >= 0 ? (
-                        <span style={{ color: '#20b7d9' }}>
-                          +
-                          {formatCurrency(
-                            saldoAcumuladoMensal - saldoPrevistoMensal,
-                          )}{' '}
-                          <br /> (
-                          {calcDiferencaPorcentagem(
-                            saldoAcumuladoMensal,
-                            saldoPrevistoMensal,
-                          )}
-                          )
-                        </span>
-                      ) : (
-                        <span style={{ color: 'red' }}>
-                          {formatCurrency(
-                            saldoAcumuladoMensal - saldoPrevistoMensal,
-                          )}{' '}
-                          <br /> (
-                          {calcDiferencaPorcentagem(
-                            saldoAcumuladoMensal,
-                            saldoPrevistoMensal,
-                          )}
-                          )
-                        </span>
-                      )}
-                    </p>
-                  </div>
-                </GraphBarVerticalInfo>
-              </LeftPart>
-            </GraphInfo>
-
-            <GraphShowContainer>
-              <DespesasRightArea selectedDate={selectedDate} />
-            </GraphShowContainer>
-          </GraphItem>
+          <BarGraphVertical
+            selectedDate={selectedDate}
+            firstName="Gasto"
+            secondName="Previsto"
+            firstMensalValue={saldoReceitaMensal - saldoDespesaMensal}
+            secondMensalValue={saldoPrevistoMensal}
+            Graph={SaldoRightArea}
+            firstBg="red"
+            secondBg="gray"
+          />
         </GraphsContainer>
       </RightContainer>
     </Container>
