@@ -13,6 +13,7 @@ import {
   ReceitasLeftArea,
   ReceitasRightArea,
   BarGraphVertical,
+  DespesasTypeArea,
 } from '../../components';
 import despesasGastoPrevisto from '../../services/DespesasGastoPrevisto.json';
 import receitasRecebidoPrevisto from '../../services/ReceitasRecebidoPrevisto.json';
@@ -34,6 +35,7 @@ import {
   PopUp,
   TopPopUp,
   BottomPopUp,
+  PieChartGraphsContainer,
 } from './styles';
 
 const { productSales } = saldoReceitasDespesas;
@@ -148,7 +150,6 @@ export function MensalBalance() {
   };
   const handlePreviousMonth = (currentItem) => {
     if (currentIndex > 0) {
-      // const newIndex = currentIndex - 1; versao antiga (pior)
       const newIndex = currentItem.index;
       setCurrentIndex(newIndex);
       const newDate = DateProductSales[newIndex];
@@ -166,14 +167,6 @@ export function MensalBalance() {
   const filteredProductSales = productSales.slice(
     Math.max(currentIndex - 11, 0), // Índice inicial (até 11 meses anteriores ou início)
     currentIndex + 1, // Índice final (mês atual incluído)
-  );
-
-  // Apagar daqui pra baixo depois
-  const totalRecebido = receitas.reduce((acc, item) => item.Recebido + acc, 0);
-
-  const totalPrevistoDeRecebido = receitas.reduce(
-    (acc, item) => acc + item.Previsto,
-    0,
   );
 
   return (
@@ -465,11 +458,77 @@ export function MensalBalance() {
             secondName="Previsto"
             firstMensalValue={chartDataDespesas[0].gasto}
             secondMensalValue={chartDataDespesas[0].previsto}
-            Graph={SaldoRightArea}
+            Graph={DespesasRightArea}
             firstBg="red"
             secondBg="gray"
           />
         </GraphsContainer>
+
+        <PieChartGraphsContainer>
+          <GraphItem>a</GraphItem>
+          <GraphItem>a</GraphItem>
+          <GraphItem>a</GraphItem>
+        </PieChartGraphsContainer>
+
+        <GraphItem>
+          <GraphInfo>
+            <LeftPart>
+              <h3>Método 4D: (Despesas por Tipo): Gasto vs. Previsto</h3>
+            </LeftPart>
+
+            <RightPart>
+              <div>
+                <div
+                  style={{
+                    backgroundColor: 'red',
+                    height: 6,
+                    width: 200,
+                  }}
+                />
+                <p>Gasto: {formatCurrency(chartDataDespesas[0].gasto)}</p>
+              </div>
+              <div>
+                <div
+                  style={{ backgroundColor: 'gray', height: 6, width: 200 }}
+                />
+                <p>Previsto: {formatCurrency(chartDataDespesas[0].previsto)}</p>
+              </div>
+              <div style={{ display: 'flex' }}>
+                <div
+                  style={{
+                    backgroundColor: 'transparent',
+                    height: 6,
+                    width: 200,
+                  }}
+                />
+                <SaldoText>
+                  <strong>Diferença</strong>:{' '}
+                  {chartDataDespesas[0].gasto - chartDataDespesas[0].previsto <=
+                  0 ? (
+                    <span style={{ color: '#20b7d9' }}>
+                      +
+                      {formatCurrency(
+                        chartDataDespesas[0].previsto -
+                          chartDataDespesas[0].gasto,
+                      )}
+                    </span>
+                  ) : (
+                    <span style={{ color: 'red' }}>
+                      {formatCurrency(
+                        chartDataDespesas[0].previsto -
+                          chartDataDespesas[0].gasto,
+                      )}
+                    </span>
+                  )}
+                </SaldoText>
+              </div>
+            </RightPart>
+          </GraphInfo>
+
+          <GraphShowContainer style={{ height: 600 }}>
+            <DespesasTypeArea />
+          </GraphShowContainer>
+        </GraphItem>
       </RightContainer>
     </Container>
   );

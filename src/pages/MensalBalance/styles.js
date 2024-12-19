@@ -95,7 +95,7 @@ export const GraphsContainer = styled.div`
   margin-top: 20px;
 
   display: grid;
-  grid-template-columns: 65% 33%;
+  grid-template-columns: 2fr 1fr;
   gap: 20px;
 `;
 
@@ -246,5 +246,18 @@ export const GraphBarVerticalInfo = styled.div`
     width: 100%;
 
     gap: 20px;
+  }
+`;
+
+export const PieChartGraphsContainer = styled.div`
+  margin: 20px 0 20px 0;
+
+  display: grid;
+  grid-template-columns: 3fr 3fr 3fr;
+  gap: 20px;
+
+  div {
+    background-color: #fff;
+    min-height: 300px;
   }
 `;

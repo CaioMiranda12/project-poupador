@@ -5,3 +5,4 @@ export * from './ReceitasRightArea';
 export * from './DespesasLeftArea';
 export * from './DespesasRightArea';
 export * from './BarGraphVertical';
+export * from './DespesasTypeArea';
