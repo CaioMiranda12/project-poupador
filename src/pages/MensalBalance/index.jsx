@@ -304,6 +304,7 @@ export function MensalBalance() {
 
           <BarGraphVertical
             selectedDate={selectedDate}
+            title="Saldo"
             firstName="Acumulado"
             secondName="Previsto"
             firstMensalValue={saldoReceitaMensal - saldoDespesaMensal}
@@ -330,13 +331,13 @@ export function MensalBalance() {
                       width: 200,
                     }}
                   />
-                  <p>Recebido: {formatCurrency(totalRecebido)}</p>
+                  <p>Recebido: {formatCurrency(chartData[0].Recebido)}</p>
                 </div>
                 <div>
                   <div
                     style={{ backgroundColor: 'gray', height: 6, width: 200 }}
                   />
-                  <p>Previsto: {formatCurrency(totalPrevistoDeRecebido)}</p>
+                  <p>Previsto: {formatCurrency(chartData[0].Previsto)}</p>
                 </div>
                 <div style={{ display: 'flex' }}>
                   <div
@@ -348,17 +349,17 @@ export function MensalBalance() {
                   />
                   <SaldoText>
                     <strong>Diferença</strong>:{' '}
-                    {totalRecebido - totalPrevistoDeRecebido >= 0 ? (
+                    {chartData[0].Recebido - chartData[0].Previsto >= 0 ? (
                       <span style={{ color: '#20b7d9' }}>
                         +
                         {formatCurrency(
-                          totalRecebido - totalPrevistoDeRecebido,
+                          chartData[0].Recebido - chartData[0].Previsto,
                         )}
                       </span>
                     ) : (
                       <span style={{ color: 'red' }}>
                         {formatCurrency(
-                          totalRecebido - totalPrevistoDeRecebido,
+                          chartData[0].Recebido - chartData[0].Previsto,
                         )}
                       </span>
                     )}
@@ -374,6 +375,7 @@ export function MensalBalance() {
 
           <BarGraphVertical
             selectedDate={selectedDate}
+            title="Receitas"
             firstName="Recebido"
             secondName="Previsto"
             firstMensalValue={chartData[0].Recebido}
@@ -386,7 +388,7 @@ export function MensalBalance() {
           <GraphItem>
             <GraphInfo>
               <LeftPart>
-                <h3>Receitas: Gasto vs Previsto</h3>
+                <h3>Despesas: Gasto vs Previsto</h3>
               </LeftPart>
 
               <RightPart>
@@ -442,6 +444,7 @@ export function MensalBalance() {
 
           <BarGraphVertical
             selectedDate={selectedDate}
+            title="Despesas"
             firstName="Gasto"
             secondName="Previsto"
             firstMensalValue={saldoReceitaMensal - saldoDespesaMensal}

@@ -8,6 +8,7 @@ import { GraphBarVerticalInfo, GraphInfo, GraphItem, TopPart } from './styles';
 export function BarGraphVertical({
   firstMensalValue,
   secondMensalValue,
+  title,
   firstName,
   secondName,
   selectedDate,
@@ -20,7 +21,7 @@ export function BarGraphVertical({
       <GraphInfo>
         <TopPart>
           <h3>
-            Saldo: {firstName} vs {secondName}
+            {title}: {firstName} vs. {secondName}
           </h3>
 
           <GraphBarVerticalInfo>
@@ -96,6 +97,7 @@ export function BarGraphVertical({
 BarGraphVertical.propTypes = {
   firstMensalValue: PropTypes.number,
   secondMensalValue: PropTypes.number,
+  title: PropTypes.string,
   firstName: PropTypes.string,
   secondName: PropTypes.string,
   selectedDate: PropTypes.string,
