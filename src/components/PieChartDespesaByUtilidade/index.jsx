@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import PropTypes from 'prop-types';
-import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 
 import { formatCurrency } from '../../utils/formatCurrency';
 

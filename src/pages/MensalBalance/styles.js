@@ -272,8 +272,13 @@ export const TopInfoPieChart = styled.div`
   height: auto;
   min-height: 500px;
   width: 100%;
+
   display: flex;
   justify-content: center;
+
+  .recharts-surface {
+    overflow: visible;
+  }
 `;
 
 export const BottomInfoPieChart = styled.div`
