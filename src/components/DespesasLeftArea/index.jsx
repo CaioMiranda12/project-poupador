@@ -78,7 +78,7 @@ function CustomBar(props) {
   );
 }
 
-export function DespesasLeftArea() {
+export function DespesasLeftArea({ selectedDate }) {
   const { despesas } = despesasGastoPrevisto;
 
   const newDespesas = despesas.map((item) => ({
@@ -87,12 +87,16 @@ export function DespesasLeftArea() {
     Diferenca: item.gasto - item.previsto,
   }));
 
+  const filteredMounthDespesas = newDespesas.filter(
+    (item) => item.mes === selectedDate,
+  );
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart
         width={500}
         height={300}
-        data={newDespesas}
+        data={filteredMounthDespesas}
         margin={{
           top: 20,
           right: 30,

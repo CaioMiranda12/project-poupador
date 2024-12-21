@@ -107,6 +107,15 @@
           "gasto": 1200,
           "previsto": 1500,
           "mes": "10.2025"
+        },
+        {
+          "name": "Despesa 13",
+          "categoria": "Saúde",
+          "tipo": "DVNE",
+          "utilidade": "Não Essencial",
+          "gasto": 1200,
+          "previsto": 1500,
+          "mes": "10.2025"
         }
       ]
       

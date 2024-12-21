@@ -447,7 +447,7 @@ export function MensalBalance() {
             </GraphInfo>
 
             <GraphShowContainer>
-              <DespesasLeftArea />
+              <DespesasLeftArea selectedDate={selectedDate} />
             </GraphShowContainer>
           </GraphItem>
 
