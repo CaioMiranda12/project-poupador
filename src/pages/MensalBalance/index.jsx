@@ -18,6 +18,7 @@ import {
 import despesasGastoPrevisto from '../../services/DespesasGastoPrevisto.json';
 import receitasRecebidoPrevisto from '../../services/ReceitasRecebidoPrevisto.json';
 import saldoReceitasDespesas from '../../services/SaldoReceitasDespesas.json';
+import { calcDiferencaPorcentagem } from '../../utils/calcDiferencaPorcentagem';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { formatDate } from '../../utils/formatDate';
 import {
@@ -510,14 +511,26 @@ export function MensalBalance() {
                       {formatCurrency(
                         chartDataDespesas[0].previsto -
                           chartDataDespesas[0].gasto,
+                      )}{' '}
+                      <br /> (
+                      {calcDiferencaPorcentagem(
+                        chartDataDespesas[0].previsto,
+                        chartDataDespesas[0].gasto,
                       )}
+                      )
                     </span>
                   ) : (
                     <span style={{ color: 'red' }}>
                       {formatCurrency(
                         chartDataDespesas[0].previsto -
                           chartDataDespesas[0].gasto,
+                      )}{' '}
+                      <br /> (
+                      {calcDiferencaPorcentagem(
+                        chartDataDespesas[0].previsto,
+                        chartDataDespesas[0].gasto,
                       )}
+                      )
                     </span>
                   )}
                 </SaldoText>
