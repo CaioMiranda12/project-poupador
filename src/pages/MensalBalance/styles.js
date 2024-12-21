@@ -256,8 +256,31 @@ export const PieChartGraphsContainer = styled.div`
   grid-template-columns: 3fr 3fr 3fr;
   gap: 20px;
 
+  h3 {
+    color: #20b7d9;
+    font-size: 26px;
+    font-weight: bold;
+    margin: 0 20px 20px 20px;
+  }
+
   div {
     background-color: #fff;
-    min-height: 300px;
+  }
+`;
+
+export const BottomInfoPieChart = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 0 20px;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+
+    p {
+      color: #000;
+      font-size: 18px;
+    }
   }
 `;

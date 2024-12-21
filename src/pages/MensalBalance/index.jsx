@@ -37,6 +37,7 @@ import {
   TopPopUp,
   BottomPopUp,
   PieChartGraphsContainer,
+  BottomInfoPieChart,
 } from './styles';
 
 const { productSales } = saldoReceitasDespesas;
@@ -110,11 +111,73 @@ export function MensalBalance() {
       acc.previsto += item.previsto;
       return acc;
     },
-    { mes: selectedDate, gasto: 0, previsto: 0 },
+    {
+      mes: selectedDate,
+      gasto: 0,
+      previsto: 0,
+    },
   );
 
   // Preparar os dados para o gráfico
   const chartDataDespesas = [dadosDespesasAgrupados]; // Apenas um objeto com os valores do mês selecionado
+
+  const despesasAgrupadasPorCategoria = despesasFiltradas.reduce(
+    (acc, item) => {
+      const categoriaExistente = acc.find(
+        (d) => d.categoria === item.categoria,
+      );
+      if (categoriaExistente) {
+        categoriaExistente.gasto += item.gasto;
+        categoriaExistente.previsto += item.previsto;
+      } else {
+        acc.push({
+          categoria: item.categoria,
+          gasto: item.gasto,
+          previsto: item.previsto,
+          mes: item.mes,
+        });
+      }
+      return acc;
+    },
+    [],
+  );
+
+  const despesasAgrupadasPorTipo = despesasFiltradas.reduce((acc, item) => {
+    const tipoExistente = acc.find((d) => d.tipo === item.tipo);
+    if (tipoExistente) {
+      tipoExistente.gasto += item.gasto;
+      tipoExistente.previsto += item.previsto;
+    } else {
+      acc.push({
+        tipo: item.tipo,
+        gasto: item.gasto,
+        previsto: item.previsto,
+        mes: item.mes,
+      });
+    }
+    return acc;
+  }, []);
+
+  const despesasAgrupadasPorUtilidade = despesasFiltradas.reduce(
+    (acc, item) => {
+      const utilidadeExistente = acc.find(
+        (d) => d.utilidade === item.utilidade,
+      );
+      if (utilidadeExistente) {
+        utilidadeExistente.gasto += item.gasto;
+        utilidadeExistente.previsto += item.previsto;
+      } else {
+        acc.push({
+          utilidade: item.utilidade,
+          gasto: item.gasto,
+          previsto: item.previsto,
+          mes: item.mes,
+        });
+      }
+      return acc;
+    },
+    [],
+  );
 
   // ===========================================================================
   // Funções de alterar visualização (Pop-up)
@@ -466,9 +529,67 @@ export function MensalBalance() {
         </GraphsContainer>
 
         <PieChartGraphsContainer>
-          <GraphItem>a</GraphItem>
-          <GraphItem>a</GraphItem>
-          <GraphItem>a</GraphItem>
+          <GraphItem>
+            <h3>Despesas Por Categoria</h3>
+            <BottomInfoPieChart>
+              {despesasAgrupadasPorCategoria.map((categoria) => (
+                <div key={categoria.categoria}>
+                  <p>
+                    <strong>{categoria.categoria}</strong>
+                    <br />
+                    Porcentagem
+                  </p>
+
+                  <p>
+                    <strong>{categoria.gasto}</strong>
+                    <br />
+                    14,29%
+                  </p>
+                </div>
+              ))}
+            </BottomInfoPieChart>
+          </GraphItem>
+
+          <GraphItem>
+            <h3>Despesas Por Tipo</h3>
+            <BottomInfoPieChart>
+              {despesasAgrupadasPorTipo.map((tipo) => (
+                <div key={tipo.tipo}>
+                  <p>
+                    <strong>{tipo.tipo}</strong>
+                    <br />
+                    Porcentagem
+                  </p>
+
+                  <p>
+                    <strong>{tipo.gasto}</strong>
+                    <br />
+                    14,29%
+                  </p>
+                </div>
+              ))}
+            </BottomInfoPieChart>
+          </GraphItem>
+          <GraphItem>
+            <h3>Despesas Por Utilidade</h3>
+            <BottomInfoPieChart>
+              {despesasAgrupadasPorUtilidade.map((utilidade) => (
+                <div key={utilidade.utilidade}>
+                  <p>
+                    <strong>{utilidade.utilidade}</strong>
+                    <br />
+                    Porcentagem
+                  </p>
+
+                  <p>
+                    <strong>{utilidade.gasto}</strong>
+                    <br />
+                    14,29%
+                  </p>
+                </div>
+              ))}
+            </BottomInfoPieChart>
+          </GraphItem>
         </PieChartGraphsContainer>
 
         <GraphItem>

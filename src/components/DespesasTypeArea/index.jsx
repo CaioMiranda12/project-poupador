@@ -96,8 +96,6 @@ export function DespesasTypeArea({ selectedDate }) {
     return acc;
   }, []);
 
-  console.log(despesasAgrupadas);
-
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart

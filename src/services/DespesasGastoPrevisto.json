@@ -113,7 +113,7 @@
           "categoria": "Saúde",
           "tipo": "DFE",
           "utilidade": "Não Essencial",
-          "gasto": 1200,
+          "gasto": 1300,
           "previsto": 1500,
           "mes": "10.2025"
         },
@@ -121,7 +121,7 @@
           "name": "Despesa 14",
           "categoria": "Lazer",
           "tipo": "DFE",
-          "utilidade": "Não Essencial",
+          "utilidade": "Essencial",
           "gasto": 1400,
           "previsto": 1600,
           "mes": "10.2025"
