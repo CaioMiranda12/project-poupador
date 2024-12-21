@@ -97,7 +97,7 @@ function CustomBar(props) {
   );
 }
 
-export function ReceitasLeftArea() {
+export function ReceitasLeftArea({ selectedDate }) {
   const { receitas } = receitasRecebidoPrevisto;
 
   const newReceitas = receitas.map((item) => ({
@@ -106,12 +106,16 @@ export function ReceitasLeftArea() {
     Diferenca: item.Recebido - item.Previsto,
   }));
 
+  const filteredMounthReceitas = newReceitas.filter(
+    (item) => item.mes === selectedDate,
+  );
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart
         width={500}
         height={300}
-        data={newReceitas}
+        data={filteredMounthReceitas}
         margin={{
           top: 20,
           right: 30,
