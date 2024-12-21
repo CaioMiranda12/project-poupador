@@ -72,11 +72,15 @@ function CustomBar(props) {
   );
 }
 
-export function DespesasTypeArea() {
+export function DespesasTypeArea({ selectedDate }) {
   const { despesas } = despesasGastoPrevisto;
 
+  const filteredMounthDespesas = despesas.filter(
+    (item) => item.mes === selectedDate,
+  );
+
   // Agrupar os gastos por tipo
-  const despesasAgrupadas = despesas.reduce((acc, item) => {
+  const despesasAgrupadas = filteredMounthDespesas.reduce((acc, item) => {
     const tipoExistente = acc.find((d) => d.tipo === item.tipo);
     if (tipoExistente) {
       tipoExistente.gasto += item.gasto;
@@ -86,10 +90,13 @@ export function DespesasTypeArea() {
         tipo: item.tipo,
         gasto: item.gasto,
         previsto: item.previsto,
+        mes: item.mes,
       });
     }
     return acc;
   }, []);
+
+  console.log(despesasAgrupadas);
 
   return (
     <ResponsiveContainer width="100%" height="100%">

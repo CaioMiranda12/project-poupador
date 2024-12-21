@@ -526,7 +526,7 @@ export function MensalBalance() {
           </GraphInfo>
 
           <GraphShowContainer style={{ height: 600 }}>
-            <DespesasTypeArea />
+            <DespesasTypeArea selectedDate={selectedDate} />
           </GraphShowContainer>
         </GraphItem>
       </RightContainer>
