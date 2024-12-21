@@ -268,6 +268,14 @@ export const PieChartGraphsContainer = styled.div`
   }
 `;
 
+export const TopInfoPieChart = styled.div`
+  height: auto;
+  min-height: 500px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
 export const BottomInfoPieChart = styled.div`
   display: flex;
   flex-direction: column;

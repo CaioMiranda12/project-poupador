@@ -125,6 +125,15 @@
           "gasto": 1400,
           "previsto": 1600,
           "mes": "10.2025"
+        },
+        {
+          "name": "Despesa 15",
+          "categoria": "Alimentação",
+          "tipo": "DFE",
+          "utilidade": "Essencial",
+          "gasto": 1380,
+          "previsto": 1400,
+          "mes": "10.2025"
         }
       ]
       

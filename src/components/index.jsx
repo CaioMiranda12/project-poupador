@@ -6,3 +6,6 @@ export * from './DespesasLeftArea';
 export * from './DespesasRightArea';
 export * from './BarGraphVertical';
 export * from './DespesasTypeArea';
+export * from './PieChartDespesaByCategory';
+export * from './PieChartDespesaByTipo';
+export * from './PieChartDespesaByUtilidade';

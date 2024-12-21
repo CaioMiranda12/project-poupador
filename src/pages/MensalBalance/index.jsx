@@ -14,13 +14,18 @@ import {
   ReceitasRightArea,
   BarGraphVertical,
   DespesasTypeArea,
+  PieChartDespesaByCategory,
+  PieChartDespesaByTipo,
+  PieChartDespesaByUtilidade,
 } from '../../components';
 import despesasGastoPrevisto from '../../services/DespesasGastoPrevisto.json';
 import receitasRecebidoPrevisto from '../../services/ReceitasRecebidoPrevisto.json';
 import saldoReceitasDespesas from '../../services/SaldoReceitasDespesas.json';
-import { calcDiferencaPorcentagem } from '../../utils/calcDiferencaPorcentagem';
-import { formatCurrency } from '../../utils/formatCurrency';
-import { formatDate } from '../../utils/formatDate';
+import {
+  calcDiferencaPorcentagem,
+  formatCurrency,
+  formatDate,
+} from '../../utils';
 import {
   Container,
   Item,
@@ -38,6 +43,7 @@ import {
   BottomPopUp,
   PieChartGraphsContainer,
   BottomInfoPieChart,
+  TopInfoPieChart,
 } from './styles';
 
 const { productSales } = saldoReceitasDespesas;
@@ -177,6 +183,21 @@ export function MensalBalance() {
       return acc;
     },
     [],
+  );
+
+  const totalGastoCategoria = despesasAgrupadasPorCategoria.reduce(
+    (acc, item) => acc + item.gasto,
+    0,
+  );
+
+  const totalGastoTipo = despesasAgrupadasPorTipo.reduce(
+    (acc, item) => acc + item.gasto,
+    0,
+  );
+
+  const totalGastoUtilidade = despesasAgrupadasPorUtilidade.reduce(
+    (acc, item) => acc + item.gasto,
+    0,
   );
 
   // ===========================================================================
@@ -531,6 +552,9 @@ export function MensalBalance() {
         <PieChartGraphsContainer>
           <GraphItem>
             <h3>Despesas Por Categoria</h3>
+            <TopInfoPieChart>
+              <PieChartDespesaByCategory data={despesasAgrupadasPorCategoria} />
+            </TopInfoPieChart>
             <BottomInfoPieChart>
               {despesasAgrupadasPorCategoria.map((categoria) => (
                 <div key={categoria.categoria}>
@@ -541,9 +565,9 @@ export function MensalBalance() {
                   </p>
 
                   <p>
-                    <strong>{categoria.gasto}</strong>
+                    <strong>{formatCurrency(categoria.gasto)}</strong>
                     <br />
-                    14,29%
+                    {`${((categoria.gasto / totalGastoCategoria) * 100).toFixed(2)}%`}
                   </p>
                 </div>
               ))}
@@ -552,6 +576,9 @@ export function MensalBalance() {
 
           <GraphItem>
             <h3>Despesas Por Tipo</h3>
+            <TopInfoPieChart>
+              <PieChartDespesaByTipo data={despesasAgrupadasPorTipo} />
+            </TopInfoPieChart>
             <BottomInfoPieChart>
               {despesasAgrupadasPorTipo.map((tipo) => (
                 <div key={tipo.tipo}>
@@ -562,9 +589,9 @@ export function MensalBalance() {
                   </p>
 
                   <p>
-                    <strong>{tipo.gasto}</strong>
+                    <strong>{formatCurrency(tipo.gasto)}</strong>
                     <br />
-                    14,29%
+                    {`${((tipo.gasto / totalGastoTipo) * 100).toFixed(2)}%`}
                   </p>
                 </div>
               ))}
@@ -572,6 +599,11 @@ export function MensalBalance() {
           </GraphItem>
           <GraphItem>
             <h3>Despesas Por Utilidade</h3>
+            <TopInfoPieChart>
+              <PieChartDespesaByUtilidade
+                data={despesasAgrupadasPorUtilidade}
+              />
+            </TopInfoPieChart>
             <BottomInfoPieChart>
               {despesasAgrupadasPorUtilidade.map((utilidade) => (
                 <div key={utilidade.utilidade}>
@@ -582,9 +614,9 @@ export function MensalBalance() {
                   </p>
 
                   <p>
-                    <strong>{utilidade.gasto}</strong>
+                    <strong>{formatCurrency(utilidade.gasto)}</strong>
                     <br />
-                    14,29%
+                    {`${((utilidade.gasto / totalGastoUtilidade) * 100).toFixed(2)}%`}
                   </p>
                 </div>
               ))}
